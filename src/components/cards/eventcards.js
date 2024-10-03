@@ -24,7 +24,7 @@ export function EventCardHr() {
                 width={300}
                 height={200}
             />
-            <p className="event-card-title">{trimTitle('Rock in Rio')}</p>
+            <p className="event-card-title mt-1">{trimTitle('Rock in Rio')}</p>
             <p className="event-card-date">12 de Setembro</p>
             <p className="event-card-location">{trimTitle('Maputo')}</p>
             <p className="event-card-organizer">Nau Hotels</p>

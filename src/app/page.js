@@ -31,7 +31,7 @@ import Zambezia from '../assets/images/zambezia.jpg';
 import Nampula from '../assets/images/nampula.jpg';
 import CaboDelgado from '../assets/images/cabo-delgado.jpg';
 import Niassa from '../assets/images/niassa.jpg';
-import { DestinyCard } from "@/components/cards/localcards";
+import { DestinyCard, LocalCardHr, LocalCategory } from "@/components/cards/localcards";
 
 
 export default function Home() {
@@ -218,7 +218,7 @@ export default function Home() {
         <div className="onde-content">
           <div className="w-full flex-col gap-4 mt-3">
             <p className="title-onde-m">Os melhores destinos em Moçambique</p>
-            <div className="onde-scroll-items bg-gray-100 gap-4 mt-4">
+            <div className="onde-scroll-items bg-gray-100 gap-4 mt-4 mb-4">
               <DestinyCard
                 destiny={
                   {
@@ -231,7 +231,7 @@ export default function Home() {
                 destiny={
                   {
                     name: "Gaza",
-                    image:Gaza  
+                    image: Gaza
                   }
                 }
               />
@@ -299,6 +299,26 @@ export default function Home() {
                   }
                 }
               />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="onde-container">
+        <div className="onde-content flex-col">
+          <div className="w-full flex-col gap-4 mt-6">
+            <p className="title-onde-m">Lugares em destaque</p>
+            <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
+              <LocalCardHr />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="onde-container bg-gray-100">
+        <div className="onde-content">
+          <div className="w-full flex-col gap-4 mt-3">
+            <p className="title-onde-m">Explore as nossas categorias de lugares</p>
+            <div className="flex flex-wrap gap-4 mt-4 mb-5">
+                <LocalCategory category="Restaurantes" />
             </div>
           </div>
         </div>

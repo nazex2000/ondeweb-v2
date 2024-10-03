@@ -41,3 +41,12 @@
   height: 70px;
   border-radius: 50%;
 }
+
+.local-category {
+  background-color: white;
+  padding: 0.5rem 2rem;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
