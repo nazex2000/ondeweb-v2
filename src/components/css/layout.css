@@ -52,3 +52,9 @@
 .menu-bar p:hover{
     color: #7134d481;
 }
+
+.onde-scroll-items {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }

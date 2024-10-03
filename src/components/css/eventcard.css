@@ -8,6 +8,7 @@
   background-color: #fff;
   transition: all 0.3s;
   padding: 0.6rem;
+  cursor: pointer;
 }
 
 .event-card:hover {
@@ -23,3 +24,20 @@
   border-radius: 10px;
 }
 
+.organizer-card {
+  display: flex;
+  flex-direction: column;
+  padding-block: 2rem;
+  padding-inline: 1rem;
+  justify-items: center;
+  align-items: center;
+  gap: 0.9rem;
+  background-color: white;
+  min-width: 200px;
+}
+
+.organizer-card-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}

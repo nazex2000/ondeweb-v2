@@ -1,5 +1,8 @@
+
 import '../css/eventcard.css';
 import Image from 'next/image';
+import ProfileIcon from '../../assets/icons/profile.png';
+import ButtonOnde from '../buttons/button';
 
 export function EventCardHr() {
 
@@ -9,6 +12,8 @@ export function EventCardHr() {
         }
         return title;
     }
+
+
 
     return (
         <div className="event-card">
@@ -23,6 +28,26 @@ export function EventCardHr() {
             <p className="event-card-date">12 de Setembro</p>
             <p className="event-card-location">{trimTitle('Maputo')}</p>
             <p className="event-card-organizer">Nau Hotels</p>
+        </div>
+    );
+}
+
+export function Organizer() {
+    const trimOrganizer = (organizer) => {
+        if (organizer.length > 14) {
+            return organizer.substring(0, 14) + '...';
+        }
+        return organizer
+    }
+    return (
+        <div className="organizer-card">
+            <Image
+                src={ProfileIcon}
+                alt="EventImage"
+                className="organizer-card-image"
+            />
+            <p className="event-card-title">{trimOrganizer('Nau Hotels')}</p>
+            <ButtonOnde title="ver" />
         </div>
     );
 }
