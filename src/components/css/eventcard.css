@@ -50,3 +50,8 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+.local-category:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
