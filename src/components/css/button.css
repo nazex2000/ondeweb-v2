@@ -1,0 +1,34 @@
+.button-onde {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: white;
+    background-color: #7034D4;
+    border: none;
+    border-radius: 3px;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.button-onde:hover {
+    background-color: #5f2fbc;
+}
+
+.button-onde:active {
+    background-color: #4f259c;
+}
+
+.button-onde:focus {
+    outline: none;
+}
+
+.button-onde:disabled {
+    background-color: #c4c4c4;
+    cursor: not-allowed;
+}
+
+.button-onde:disabled:hover {
+    background-color: #c4c4c4;
+}
+

@@ -1,101 +1,183 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
+import Banner from "../assets/images/banner-home.webp";
+import '../components/css/text.css';
+import '../components/css/home.css';
+import '../components/css/layout.css';
+import ButtonOnde from "@/components/buttons/button";
+import { FaMicrophone, FaMicrophoneAltSlash } from "react-icons/fa";
+import { MdArrowDropDown, MdOutlineMusicVideo } from "react-icons/md";
+
+//icons
+import MicIcon from '../assets/icons/mic.png';
+import DiscoIcon from '../assets/icons/disco.png';
+import MaskIcon from '../assets/icons/mask.png';
+import FashionIcon from '../assets/icons/fashion.png';
+import NetworkingIcon from '../assets/icons/networking.png';
+import FoodIcon from '../assets/icons/food.png';
+import SportsIcon from '../assets/icons/sports.png';
+import { EventCardHr } from "@/components/cards/eventcards";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [selectedMenu, setSelectedMenu] = useState("all");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleMenu = (menu) => {
+    setSelectedMenu(menu);
+  }
+  return (
+    <>
+      <div className="banner-home">
+        <Image
+          src={Banner}
+          alt="Banner"
+          className="banner-home-image"
+          layout="fill"
+          objectFit="cover"
+        />
+        <div className="banner-home-container">
+          <div className="banner-home-content">
+            <p className="title-onde-home">Pesquisa e Descobre</p>
+            <p className="title-onde-home-hl">Moçambique</p>
+            <div className="mt-5">
+              <ButtonOnde
+                title={"Começa a explorar"}
+                onClick={() => window.location.href = "/eventos"}
+              />
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+      <div className="onde-container">
+        <div className="onde-content">
+          <div className="w-full flex grid grid-cols-7 mt-3 gap-4">
+            <div className="onde-option">
+              <div className="onde-option-rounded">
+                <Image
+                  src={MicIcon}
+                  alt="Mic"
+                  className="onde-option-icon"
+                />
+              </div>
+              <p className="text-onde-s">Música</p>
+            </div>
+            <div className="onde-option">
+              <div className="onde-option-rounded">
+                <Image
+                  src={DiscoIcon}
+                  alt="Mic"
+                  className="onde-option-icon"
+                />
+              </div>
+              <p className="text-onde-s">Festas Noturnas</p>
+            </div>
+            <div className="onde-option">
+              <div className="onde-option-rounded">
+                <Image
+                  src={MaskIcon}
+                  alt="Mic"
+                  className="onde-option-icon"
+                />
+              </div>
+              <p className="text-onde-s">Arte</p>
+            </div>
+            <div className="onde-option">
+              <div className="onde-option-rounded">
+                <Image
+                  src={FashionIcon}
+                  alt="Mic"
+                  className="onde-option-icon"
+                />
+              </div>
+              <p className="text-onde-s">Moda</p>
+            </div>
+            <div className="onde-option">
+              <div className="onde-option-rounded">
+                <Image
+                  src={NetworkingIcon}
+                  alt="Mic"
+                  className="onde-option-icon"
+                />
+              </div>
+              <p className="text-onde-s">Networking</p>
+            </div>
+            <div className="onde-option">
+              <div className="onde-option-rounded">
+                <Image
+                  src={FoodIcon}
+                  alt="Mic"
+                  className="onde-option-icon"
+                />
+              </div>
+              <p className="text-onde-s">Comida</p>
+            </div>
+            <div className="onde-option">
+              <div className="onde-option-rounded">
+                <Image
+                  src={SportsIcon}
+                  alt="Mic"
+                  className="onde-option-icon"
+                />
+              </div>
+              <p className="text-onde-s">Desporto</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <section className="onde-container">
+        <hr className="w-full mt-2" />
+        <div className="onde-content" style={{padding: "0.5rem 1.6rem"}}>
+          <div className="flex gap-2 items-center">
+            <p className="text-onde-m">Explorando eventos em </p>
+            <div className="onde-drop">
+              <MdArrowDropDown size={24} color="#7034D4" />
+              <p className="text-onde-m dest">Maputo</p>
+              <div className="onde-dropdown">
+                <p className="text-onde-s">Maputo</p>
+                <p className="text-onde-s">Matola</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr className="w-full mb-2" />
+      </section>
+      <div className="onde-container">
+        <div className="onde-content flex-col">
+          <div className="menu-bar flex gap-6 items-center">
+            <p 
+              className={`text-onde-xs ${selectedMenu === "all" ? "selected" : ""}`}
+              onClick={() => handleMenu("all")}
+            >
+              Todos
+            </p>
+            <p 
+              className={`text-onde-xs ${selectedMenu === "today" ? "selected" : ""}`}
+              onClick={() => handleMenu("today")}
+            >
+              Hoje
+            </p>
+            <p 
+              className={`text-onde-xs ${selectedMenu === "week" ? "selected" : ""}`}
+              onClick={() => handleMenu("week")}
+            >
+              Esta semana
+            </p>
+            <p 
+              className={`text-onde-xs ${selectedMenu === "month" ? "selected" : ""}`}
+              onClick={() => handleMenu("month")}
+            >
+              Este mês
+            </p>
+          </div>
+          <div className="w-full flex-col gap-4 mt-6">
+            <p className="title-onde-m">Eventos em destaque</p>
+            <div className="flex mt-3 grid grid-cols-4 gap-4">
+              <EventCardHr />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
