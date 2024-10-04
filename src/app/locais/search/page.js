@@ -6,7 +6,7 @@ import EmptyImage from '../../../assets/images/empty.png';
 import Skeleton from '@mui/material/Skeleton';
 import { getLocalCategories } from "@/components/getters/local";
 import { MdSelectAll } from "react-icons/md";
-import { Radio } from "@nextui-org/react";
+import {RadioGroup, Radio} from "@nextui-org/radio";
 import '../../../components/css/text.css';
 import '../../../components/css/explore.css';
 
@@ -106,10 +106,9 @@ export default function Page() {
                 {!loadingParams && <>
                     <div className="w-full flex-col gap-4 mt-3">
                         <p className="title-onde-m">Resultados para {searchFilter} em {locationFilter}</p>
-                        <div className="w-full flex-col gap-4 mt-3">
-                            <div className="w-1/4 flex-col gap-4 my-6">
+                        <div className="w-full flex gap-4 mt-3">
+                            <div className="w-1/4 flex-col gap-4">
                                 <p className="title-onde-sm">Filtros</p>
-
                                 {loadingFilters ? <>
                                     <div className="w-full grid grid-cols-1 gap-4 mt-3">
                                         {Array.from({ length: 8 }).map((_, index) => (
@@ -141,23 +140,34 @@ export default function Page() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="w-full flex-col gap-4 mt-3">
+                                    <div className="w-full flex-col gap-4 mt-4">
                                         <p className="title-onde-s">Ordenar por</p>
                                         <div className="w-full grid grid-cols-1 gap-2 mt-2">
-                                            <Radio.Group
+                                            <RadioGroup
                                                 value={orderFilter}
                                                 onChange={(e) => setOrderFilter(e.target.value)}
+                                                size="sm"
                                             >
                                                 {orderOptions.map((option, index) => (
-                                                    <Radio key={index} value={option.value} className="text-onde-xs">
-                                                        {option.name}
+                                                    <Radio key={index} value={option.value}>
+                                                        <p className="text-onde-xs">{option.name}</p>
                                                     </Radio>
                                                 ))}
-                                            </Radio.Group>
+                                            </RadioGroup>
                                         </div>
                                     </div>
                                 </>}
-
+                            </div>
+                            <div className="w-3/4 flex-col gap-4">
+                                <div className="w-full grid grid-cols-3 gap-4 mt-6">
+                                    {Array.from({ length: 8 }).map((_, index) => (
+                                        <div className="flex flex-col gap-1" key={index}>
+                                            <Skeleton variant="rectangular" width="100%" height={200} />
+                                            <Skeleton />
+                                            <Skeleton width="60%" />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
