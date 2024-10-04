@@ -1,17 +1,36 @@
 "use client";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Logo from "../../assets/icons/icon.png";
-import { MdMenu, MdClose, MdFacebook } from "react-icons/md";
-import { FaArrowRight, FaInstagram, FaTwitter } from "react-icons/fa";
+import { MdMenu, MdClose, MdFacebook, MdLocationPin, MdArrowDropDown } from "react-icons/md";
+import { FaArrowRight, FaCalendar, FaInstagram, FaSearch, FaTwitter } from "react-icons/fa";
 import "../css/header.css";
+import "../css/text.css";
+import "../css/home.css";
 
 const Header = () => {
+    const router = usePathname();
+    const [selectedLocal, setSelectedLocal] = useState('Maputo');
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleMenu = (path) => {
         window.location.href = path;
         setMenuOpen(false);
+    }
+
+    const trimTitle = (title) => {
+        if (title?.length > 6) {
+            return title.substring(0, 6) + '...';
+        }
+        return title
+    }
+
+    //Location Picker
+    const provinces = ["Maputo", "Gaza", "Inhambane", "Sofala", "Manica", "Tete", "Zambezia", "Nampula", "Cabo Delgado", "Niassa"];
+
+    const handleLocal = (province) => {
+        setSelectedLocal(province);
     }
 
     return (
@@ -88,6 +107,37 @@ const Header = () => {
                     </div>
                 }
             </div>
+            {(router === '/locais' || router === '/evento') &&
+                <div className="search-container">
+                    <div className="location-search">
+                        <MdLocationPin size={20} color='#7034D4' />
+                        <p className="nilia-text-s" >{trimTitle(selectedLocal)}</p>
+                        <MdArrowDropDown size={20} color='#7034D4' />
+                        <div className="onde-dropdown">
+                            {
+                                provinces.map((province, index) => (
+                                    <p
+                                        className="text-onde-xs"
+                                        key={index}
+                                        onClick={() => {
+                                            handleLocal(province);
+                                        }}
+                                    >
+                                        {province}
+                                    </p>
+                                ))
+                            }
+                        </div>
+                    </div>
+                    <div className="text-search">
+                        <FaSearch size={20} color='#7034D4' />
+                        <input type="text" placeholder="Pesquisar" className="search-input" />
+                    </div>
+                    <div className="search-button">
+                        Pesquisar
+                    </div>
+                </div>
+            }
         </div>
     );
 };
