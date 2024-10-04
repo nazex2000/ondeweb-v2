@@ -1,5 +1,6 @@
 import Image from "next/image";
 import '../css/destinycard.css';
+import '../css/eventcard.css';
 import { FaRegArrowAltCircleRight } from "react-icons/fa";
 import { MdArrowDropUp, MdArrowOutward, MdArrowUpward, MdSubdirectoryArrowRight } from "react-icons/md";
 
