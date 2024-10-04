@@ -11,6 +11,7 @@ import '../../../components/css/text.css';
 import '../../../components/css/explore.css';
 import Image from "next/image";
 import { LocalCardVr } from "@/components/cards/localcards";
+import Fuse from 'fuse.js';
 
 
 const Empty = () => {
@@ -56,6 +57,7 @@ export default function Page() {
     const [loadingParams, setLoadingParams] = useState(true);
     const [searchFilter, setSearchFilter] = useState(search.get('name') || '');
     const [locationFilter, setLocationFilter] = useState(search.get('location') || 'Maputo');
+    const [categoryFilter, setCategoryFilter] = useState(search.get('category') || '');
 
     useEffect(() => {
         setTimeout(() => {
@@ -93,9 +95,46 @@ export default function Page() {
         setLoadingResults(true);
         let bestLoc = await getBestLocals();
         console.log(locationFilter);
-        setResults(bestLoc?.filter(locat => locat?.location?.toLowerCase().includes(locationFilter?.toLowerCase())));
+        let dados = (bestLoc?.filter(locat => locat?.location?.toLowerCase().includes(locationFilter?.toLowerCase())));
+        dados = filterByCategory(dados);
+        console.log(dados);
+        dados = filterByFuse(dados);
+        console.log(dados);
+        setResults(dados);
         setLoadingResults(false);
     }
+
+    const filterByOrder = (locals) => {
+        switch (orderFilter) {
+            case 'most-popular':
+                return locals.sort((a, b) => b?.views - a?.views);
+            case 'a-z':
+                return locals.sort((a, b) => a?.name.localeCompare(b?.name));
+            case 'z-a':
+                return locals.sort((a, b) => b?.name.localeCompare(a?.name));
+            default:
+                return locals;
+        }
+    }
+
+    const filterByCategory = (locals) => {
+        if (categoryFilter === '') return locals;
+        return locals.filter(local => {
+            return Array.isArray(local.category)
+                ? local.category.some(cat => cat.name === categoryFilter)
+                : false;
+        });
+    }
+
+    const filterByFuse = (locals) => {
+        const fuse = new Fuse(locals, {
+            keys: ['name',  'hashtags'],
+            includeScore: true,
+        });
+        return fuse.search(searchFilter).map(result => result.item);
+    }
+
+    const filteredResults = filterByOrder(results);
 
     return (
         <div className="onde-container">
@@ -179,7 +218,7 @@ export default function Page() {
                                 </>}
                                 {!loadingResults &&
                                     <>
-                                        {results.length > 0 ?
+                                        {filteredResults.length > 0 ?
                                             <>
                                                 <div className="flex mt-2 grid grid-cols-1 gap-4 mb-5">
                                                     {
