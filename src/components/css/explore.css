@@ -1,0 +1,48 @@
+.card-explore {
+    border-radius: 10px;
+    position: relative;
+    width: 100%;
+    height: 56vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-explore-image {
+    border-radius: 10px;
+}
+
+.card-explore-content {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 4rem;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    border-radius: 0 0 10px 10px;
+    color: white;
+}
+
+.explore-button {
+    background: #5f2fbc;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.explore-button:hover {
+    background: #4f259c;
+}
+
+.explore-button:hover .onde-dropdown {
+    display: flex;
+}

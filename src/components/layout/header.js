@@ -26,7 +26,7 @@ const Header = () => {
                             <a href="/">Home</a>
                         </li>
                         <li className="dropdown">
-                            <a href="/eventos">Eventos</a>
+                            <a href="/evento">Eventos</a>
                         </li>
                         <li className="dropdown">
                             <a href="/locais">Locais</a>
@@ -64,7 +64,7 @@ const Header = () => {
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#ff812e' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/eventos')}>Eventos</p>
+                            <p className="nilia-text-m" onClick={() => handleMenu('/evento')}>Eventos</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#ff812e' />
