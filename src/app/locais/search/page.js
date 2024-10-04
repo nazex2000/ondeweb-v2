@@ -4,11 +4,13 @@ import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 import EmptyImage from '../../../assets/images/empty.png';
 import Skeleton from '@mui/material/Skeleton';
-import { getLocalCategories } from "@/components/getters/local";
+import { getBestLocals, getLocalCategories } from "@/components/getters/local";
 import { MdSelectAll } from "react-icons/md";
-import {RadioGroup, Radio} from "@nextui-org/radio";
+import { RadioGroup, Radio } from "@nextui-org/radio";
 import '../../../components/css/text.css';
 import '../../../components/css/explore.css';
+import Image from "next/image";
+import { LocalCardVr } from "@/components/cards/localcards";
 
 
 const Empty = () => {
@@ -52,23 +54,16 @@ export default function Page() {
     //search information
     const search = useSearchParams();
     const [loadingParams, setLoadingParams] = useState(true);
-    const [searchFilter, setSearchFilter] = useState(null);
-    const [locationFilter, setLocationFilter] = useState(null);
+    const [searchFilter, setSearchFilter] = useState(search.get('name') || '');
+    const [locationFilter, setLocationFilter] = useState(search.get('location') || 'Maputo');
 
     useEffect(() => {
-        popInformation();
         setTimeout(() => {
             setLoadingParams(false);
             fetchExploreCategories();
+            fetchLocals();
         }, 100);
     }, []);
-
-    const popInformation = () => {
-        const searchParams = search.get('name');
-        const locationParams = search.get('location');
-        setSearchFilter(searchParams || "");
-        setLocationFilter(locationParams || 'Maputo');
-    }
 
     //Filters
     const [loadingFilters, setLoadingFilters] = useState(true);
@@ -90,6 +85,18 @@ export default function Page() {
     //collapse categories filter
     const [collapse, setCollapse] = useState(false);
 
+    //Results
+    const [loadingResults, setLoadingResults] = useState(true);
+    const [results, setResults] = useState([]);
+
+    const fetchLocals = async () => {
+        setLoadingResults(true);
+        let bestLoc = await getBestLocals();
+        console.log(locationFilter);
+        setResults(bestLoc?.filter(locat => locat?.location?.toLowerCase().includes(locationFilter?.toLowerCase())));
+        setLoadingResults(false);
+    }
+
     return (
         <div className="onde-container">
             <div className="onde-content flex-col pb-4">
@@ -104,7 +111,7 @@ export default function Page() {
                     </div>
                 </>}
                 {!loadingParams && <>
-                    <div className="w-full flex-col gap-4 mt-3">
+                    <div className="w-full flex-col gap-4 my-4">
                         <p className="title-onde-m">Resultados para {searchFilter} em {locationFilter}</p>
                         <div className="w-full flex gap-4 mt-3">
                             <div className="w-1/4 flex-col gap-4">
@@ -122,19 +129,19 @@ export default function Page() {
                                         <p className="title-onde-s">Categorias</p>
                                         <div className="w-full grid grid-cols-1 gap-2 mt-2">
                                             {exploreCategories
-                                            .slice(0, collapse ? exploreCategories.length : 5)
-                                            .map((category, index) => (
-                                                <div
-                                                    className={`item-category ${category.name === searchFilter ? 'ic-active' : ''}`}
-                                                    key={index}
-                                                    onClick={() => {
-                                                        setSearchFilter(category.name);
-                                                    }}
-                                                >
-                                                    <MdSelectAll size={20} />
-                                                    <p className="text-onde-xs">{category.name}</p>
-                                                </div>
-                                            ))}
+                                                .slice(0, collapse ? exploreCategories.length : 5)
+                                                .map((category, index) => (
+                                                    <div
+                                                        className={`item-category ${category.name === searchFilter ? 'ic-active' : ''}`}
+                                                        key={index}
+                                                        onClick={() => {
+                                                            setSearchFilter(category.name);
+                                                        }}
+                                                    >
+                                                        <MdSelectAll size={20} />
+                                                        <p className="text-onde-xs">{category.name}</p>
+                                                    </div>
+                                                ))}
                                             <div className="collapse-button mt-2" onClick={() => setCollapse(!collapse)}>
                                                 <p className="text-onde-xs">{collapse ? 'Ver menos' : 'Ver mais'}</p>
                                             </div>
@@ -159,15 +166,33 @@ export default function Page() {
                                 </>}
                             </div>
                             <div className="w-3/4 flex-col gap-4">
-                                <div className="w-full grid grid-cols-3 gap-4 mt-6">
-                                    {Array.from({ length: 8 }).map((_, index) => (
-                                        <div className="flex flex-col gap-1" key={index}>
-                                            <Skeleton variant="rectangular" width="100%" height={200} />
-                                            <Skeleton />
-                                            <Skeleton width="60%" />
-                                        </div>
-                                    ))}
-                                </div>
+                                {loadingResults && <>
+                                    <div className="w-full grid grid-cols-3 gap-4 mt-6">
+                                        {Array.from({ length: 8 }).map((_, index) => (
+                                            <div className="flex flex-col gap-1" key={index}>
+                                                <Skeleton variant="rectangular" width="100%" height={200} />
+                                                <Skeleton />
+                                                <Skeleton width="60%" />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </>}
+                                {!loadingResults &&
+                                    <>
+                                        {results.length > 0 ?
+                                            <>
+                                                <div className="flex mt-2 grid grid-cols-1 gap-4 mb-5">
+                                                    {
+                                                        results.map((local, index) => (
+                                                            <LocalCardVr local={local} key={index} />
+                                                        ))
+                                                    }
+                                                </div>
+                                            </> :
+                                            <Empty/>
+                                        }
+                                    </>
+                                }
                             </div>
                         </div>
                     </div>

@@ -33,6 +33,37 @@ export function LocalCardHr({ local }) {
     );
 }
 
+export function LocalCardVr({ local }) {
+
+    const trimTitle = (title) => {
+        if (title?.length > 23) {
+            return title.substring(0, 23) + '...';
+        }
+        return title;
+    }
+
+
+
+    return (
+        <div className="event-card-vr">
+            <Image
+                src={local?.coverImage}
+                alt="EventImage"
+                width={300}
+                height={100}
+                className="event-card-image-vr"
+            />
+            <div className="flex flex-col gap-2 content-vr">
+                <p className="event-card-title mt-1">{local?.name}</p>
+                <p className="event-card-date">
+                    {local?.category?.[0]?.name}
+                </p>
+                <p className="event-card-location">{local?.location}</p>
+            </div>
+        </div>
+    );
+}
+
 
 
 export function DestinyCard({ destiny }) {
