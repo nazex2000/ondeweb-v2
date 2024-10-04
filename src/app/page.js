@@ -38,6 +38,10 @@ import { getAllEvents, getOrganizers, getPopularEvents, getTopEvents } from "@/c
 //Empty Images
 import EmptyImage from '../assets/images/empty.png';
 
+//skeleton
+import Skeleton from '@mui/material/Skeleton';
+
+
 const Empty = () => {
   return (
     <div className="flex-col flex justify-center items-center w-full">
@@ -58,16 +62,18 @@ export default function Home() {
 
   useEffect(() => {
     getEventsData(selectedLocal);
-    getLocalData();
+    getLocalData(selectedLocal);
   }, []);
 
   //Local
+  const [loadingLocals, setLoadingLocals] = useState(true);
   const provinces = ["Maputo", "Gaza", "Inhambane", "Sofala", "Manica", "Tete", "Zambezia", "Nampula", "Cabo Delgado", "Niassa"];
-  const [selectedLocal, setSelectedLocal] = useState("");
+  const [selectedLocal, setSelectedLocal] = useState("Maputo");
   const [localCategories, setLocalCategories] = useState([]);
   const [bestLocals, setBestLocals] = useState([]);
 
   //events
+  const [loadingEvents, setLoadingEvents] = useState(true);
   const [organizers, setOrganizers] = useState([]);
   const [topEvents, setTopEvents] = useState([]);
   const [popularEvents, setPopularEvents] = useState([]);
@@ -77,8 +83,15 @@ export default function Home() {
     setSelectedMenu(menu);
   }
 
+  const handleLocal = (local) => {
+    setSelectedLocal(local);
+    getEventsData(local);
+    getLocalData(local);
+  }
+
   //fetch data of events
   const getEventsData = async (local) => {
+    setLoadingEvents(true);
     let top = await getTopEvents();
     setTopEvents(top?.filter(event => event?.locationName?.toLowerCase().includes(local?.toLowerCase())).slice(0, 6));
     let popular = await getPopularEvents();
@@ -87,14 +100,17 @@ export default function Home() {
     setOrganizers(org);
     let all = await getAllEvents();
     setAllEvents(all?.filter(event => event?.locationName?.toLowerCase().includes(local?.toLowerCase())).slice(0, 15));
+    setLoadingEvents(false);
   }
 
   //fetch data of locals
-  const getLocalData = async () => {
+  const getLocalData = async (local) => {
+    setLoadingLocals(true);
     let localCat = await getLocalCategories();
     setLocalCategories(localCat);
     let bestLoc = await getBestLocals();
-    setBestLocals(bestLoc);
+    setBestLocals(bestLoc?.filter(locat => locat?.location?.toLowerCase().includes(local?.toLowerCase())).slice(0, 12));
+    setLoadingLocals(false);
   }
 
   //filter events by date
@@ -233,8 +249,7 @@ export default function Home() {
                       className="text-onde-xs"
                       key={index}
                       onClick={() => {
-                        setSelectedLocal(province);
-                        getEventsData(province);
+                        handleLocal(province);
                       }}
                     >
                       {province}
@@ -275,7 +290,18 @@ export default function Home() {
               Este mês
             </p>
           </div>
-          {selectedMenu === "all" && <>
+          {loadingEvents && <>
+            <div className="w-full grid grid-cols-4 gap-4 mt-6">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <div className="flex flex-col gap-1" key={index}>
+                  <Skeleton variant="rectangular" width="100%" height={200} />
+                  <Skeleton />
+                  <Skeleton width="60%" />
+                </div>
+              ))}
+            </div>
+          </>}
+          {!loadingEvents && selectedMenu === "all" && <>
             <div className="w-full flex-col gap-4 mt-6">
               <p className="title-onde-m">Eventos em destaque</p>
               {topEvents.length > 0 ? <>
@@ -306,7 +332,7 @@ export default function Home() {
               )}
             </div>
           </>}
-          {selectedMenu !== "all" && <>
+          {!loadingEvents && selectedMenu !== "all" && <>
             <div className="w-full flex-col gap-4 mt-6">
               <p className="title-onde-m">Eventos encontrados</p>
               {filterDateEvents.length > 0 && <>
@@ -323,7 +349,7 @@ export default function Home() {
               </>}
             </div>
           </>}
-          {organizers.length > 0 && <>
+          {!loadingEvents && organizers.length > 0 && <>
             <hr className="w-full my-7" />
             <div className="w-full flex-col gap-4 mb-5">
               <p className="title-onde-m flex items-center gap-3">
@@ -339,7 +365,6 @@ export default function Home() {
               </div>
             </div>
           </>}
-
         </div>
       </div>
       <div className="onde-container bg-gray-100">
@@ -431,23 +456,38 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {bestLocals.length > 0 &&
-        <div className="onde-container">
-          <div className="onde-content flex-col">
+      <div className="onde-container">
+        <div className="onde-content flex-col">
+          {loadingLocals && <>
+            <div className="w-full grid grid-cols-4 gap-4 mt-6">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <div className="flex flex-col gap-1" key={index}>
+                  <Skeleton variant="rectangular" width="100%" height={200} />
+                  <Skeleton />
+                  <Skeleton width="60%" />
+                </div>
+              ))}
+            </div>
+          </>}
+          {!loadingLocals &&
             <div className="w-full flex-col gap-4 mt-6">
               <p className="title-onde-m">Lugares em destaque</p>
-              <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
-                {
-                  bestLocals.map((local, index) => (
-                    <LocalCardHr local={local} key={index} />
-                  ))
-                }
-              </div>
+              {bestLocals.length > 0 ?
+                <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
+                  {
+                    bestLocals.map((local, index) => (
+                      <LocalCardHr local={local} key={index} />
+                    ))
+                  }
+                </div>
+                :
+                <Empty />
+              }
             </div>
-          </div>
+          }
         </div>
-      }
-      {localCategories.length > 0 &&
+      </div>
+      {localCategories?.length > 0 &&
         <div className="onde-container bg-gray-100">
           <div className="onde-content">
             <div className="w-full flex-col gap-4 mt-3">

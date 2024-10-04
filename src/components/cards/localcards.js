@@ -45,7 +45,7 @@ export function DestinyCard({ destiny }) {
                 objectFit="cover"
             />
             <div className='destiny-card-content'>
-                <p className='title-onde-l'>{destiny.name}</p>
+                <p className='title-onde-m'>{destiny.name}</p>
             </div>
         </div>
     );

@@ -11,11 +11,11 @@ export const getLocalCategories = async () => {
 }
 
 export const getBestLocals = async () => {
-    if(sessionStorage.getItem('bestLocals')) {
-        return JSON.parse(sessionStorage.getItem('bestLocals'))
+    if(sessionStorage.getItem('locals')) {
+        return JSON.parse(sessionStorage.getItem('locals'))
     } else {
-        const locals = await fetchBestLocals()
-        sessionStorage.setItem('bestLocals', JSON.stringify(locals))
+        const locals = await fetchLocals()
+        sessionStorage.setItem('locals', JSON.stringify(locals))
         return locals
     }
 }
@@ -41,12 +41,11 @@ export const fetchLocalCategories = async () => {
     }
 }
 
-export const fetchBestLocals = async () => {
+export const fetchLocals = async () => {
     try{
         const snapshot = await firebase.firestore()
                 .collection('local')
                 .orderBy('views', 'desc')
-                .limit(20)
                 .get()
             let locals = snapshot.docs.map(doc => {
                 return {
@@ -56,7 +55,7 @@ export const fetchBestLocals = async () => {
             }
             ).sort((a, b) => b.views - a.views);
             locals=locals.filter((item) => !item.deleted);
-            return locals.slice(0, 12);
+            return locals;
         } catch (error) {
             return []
         }
