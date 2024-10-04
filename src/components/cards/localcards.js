@@ -3,10 +3,10 @@ import '../css/destinycard.css';
 import { FaRegArrowAltCircleRight } from "react-icons/fa";
 import { MdArrowDropUp, MdArrowOutward, MdArrowUpward, MdSubdirectoryArrowRight } from "react-icons/md";
 
-export function LocalCardHr() {
+export function LocalCardHr({ local }) {
 
     const trimTitle = (title) => {
-        if (title.length > 23) {
+        if (title?.length > 23) {
             return title.substring(0, 23) + '...';
         }
         return title;
@@ -17,15 +17,17 @@ export function LocalCardHr() {
     return (
         <div className="event-card">
             <Image
-                src="https://assets.milestoneinternet.com/highgate-hotels/nau-hotels/offers/rock-in-rio.png?time=1718822169"
+                src={local?.coverImage}
                 alt="EventImage"
                 className="event-card-image"
                 width={300}
                 height={200}
             />
-            <p className="event-card-title mt-1">{trimTitle('Mundos Restaurante')}</p>
-            <p className="event-card-date">Restaurante</p>
-            <p className="event-card-location">{trimTitle('Maputo')}</p>
+            <p className="event-card-title mt-1">{trimTitle(local?.name)}</p>
+            <p className="event-card-date">
+                {local?.category?.[0]?.name}
+            </p>
+            <p className="event-card-location">{trimTitle(local?.location)}</p>
         </div>
     );
 }
@@ -49,7 +51,7 @@ export function DestinyCard({ destiny }) {
     );
 }
 
-export function LocalCategory ({category}) {
+export function LocalCategory({ category }) {
     return (
         <div className='local-category'>
             <p className="text-onde-s">{category}</p>

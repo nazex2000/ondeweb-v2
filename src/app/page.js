@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Banner from "../assets/images/banner-home.webp";
 import '../components/css/text.css';
@@ -32,14 +32,92 @@ import Nampula from '../assets/images/nampula.jpg';
 import CaboDelgado from '../assets/images/cabo-delgado.jpg';
 import Niassa from '../assets/images/niassa.jpg';
 import { DestinyCard, LocalCardHr, LocalCategory } from "@/components/cards/localcards";
+import { getBestLocals, getLocalCategories } from "@/components/getters/local";
+import { getAllEvents, getOrganizers, getPopularEvents, getTopEvents } from "@/components/getters/events";
+
+//Empty Images
+import EmptyImage from '../assets/images/empty.png';
+
+const Empty = () => {
+  return (
+    <div className="flex-col flex justify-center items-center w-full">
+      <Image
+        src={EmptyImage}
+        alt="Empty"
+        width={200}
+        height={200}
+      />
+      <p className="text-onde-s">Nenhum evento encontrado</p>
+    </div>
+  );
+}
 
 
 export default function Home() {
   const [selectedMenu, setSelectedMenu] = useState("all");
 
+  useEffect(() => {
+    getEventsData(selectedLocal);
+    getLocalData();
+  }, []);
+
+  //Local
+  const provinces = ["Maputo", "Gaza", "Inhambane", "Sofala", "Manica", "Tete", "Zambezia", "Nampula", "Cabo Delgado", "Niassa"];
+  const [selectedLocal, setSelectedLocal] = useState("");
+  const [localCategories, setLocalCategories] = useState([]);
+  const [bestLocals, setBestLocals] = useState([]);
+
+  //events
+  const [organizers, setOrganizers] = useState([]);
+  const [topEvents, setTopEvents] = useState([]);
+  const [popularEvents, setPopularEvents] = useState([]);
+  const [allEvents, setAllEvents] = useState([]);
+
   const handleMenu = (menu) => {
     setSelectedMenu(menu);
   }
+
+  //fetch data of events
+  const getEventsData = async (local) => {
+    let top = await getTopEvents();
+    setTopEvents(top?.filter(event => event?.locationName?.toLowerCase().includes(local?.toLowerCase())).slice(0, 6));
+    let popular = await getPopularEvents();
+    setPopularEvents(popular?.filter(event => event?.locationName?.toLowerCase().includes(local?.toLowerCase())).slice(0, 12));
+    let org = await getOrganizers();
+    setOrganizers(org);
+    let all = await getAllEvents();
+    setAllEvents(all?.filter(event => event?.locationName?.toLowerCase().includes(local?.toLowerCase())).slice(0, 15));
+  }
+
+  //fetch data of locals
+  const getLocalData = async () => {
+    let localCat = await getLocalCategories();
+    setLocalCategories(localCat);
+    let bestLoc = await getBestLocals();
+    setBestLocals(bestLoc);
+  }
+
+  //filter events by date
+  const filterDateEvents = allEvents.filter(event => {
+    const date = new Date(event?.data?.seconds * 1000);
+    const today = new Date();
+    const week = new Date(today);
+    week.setDate(week.getDate() + 7);
+    const month = new Date(today);
+    month.setMonth(month.getMonth() + 1);
+    if (selectedMenu === "today") {
+      return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+    }
+    if (selectedMenu === "week") {
+      return date >= today && date <= week;
+    }
+    if (selectedMenu === "month") {
+      return date >= today && date <= month;
+    }
+    return event;
+  }
+  );
+
   return (
     <>
       <div className="banner-home">
@@ -147,10 +225,22 @@ export default function Home() {
             <p className="text-onde-m">Explorando eventos em </p>
             <div className="onde-drop">
               <MdArrowDropDown size={24} color="#7034D4" />
-              <p className="text-onde-m dest">Maputo</p>
+              <p className="text-onde-m dest">{selectedLocal ? selectedLocal : "Maputo"}</p>
               <div className="onde-dropdown">
-                <p className="text-onde-s">Maputo</p>
-                <p className="text-onde-s">Matola</p>
+                {
+                  provinces.map((province, index) => (
+                    <p
+                      className="text-onde-xs"
+                      key={index}
+                      onClick={() => {
+                        setSelectedLocal(province);
+                        getEventsData(province);
+                      }}
+                    >
+                      {province}
+                    </p>
+                  ))
+                }
               </div>
             </div>
           </div>
@@ -185,33 +275,71 @@ export default function Home() {
               Este mês
             </p>
           </div>
-          <div className="w-full flex-col gap-4 mt-6">
-            <p className="title-onde-m">Eventos em destaque</p>
-            <div className="flex mt-2 grid grid-cols-4 gap-4">
-              <EventCardHr />
+          {selectedMenu === "all" && <>
+            <div className="w-full flex-col gap-4 mt-6">
+              <p className="title-onde-m">Eventos em destaque</p>
+              {topEvents.length > 0 ? <>
+                <div className="flex mt-2 grid grid-cols-4 gap-4">
+                  {
+                    topEvents.map((event, index) => (
+                      <EventCardHr event={event} key={index} />
+                    ))
+                  }
+                </div>
+              </> : (
+                <Empty />
+              )
+              }
             </div>
-          </div>
-          <div className="w-full flex-col gap-4 mt-5">
-            <p className="title-onde-m">Eventos populares</p>
-            <div className="flex mt-2 grid grid-cols-4 gap-4">
-              <EventCardHr />
+            <div className="w-full flex-col gap-4 mt-5">
+              <p className="title-onde-m">Eventos populares</p>
+              {popularEvents.length > 0 ? <>
+                <div className="flex mt-2 grid grid-cols-4 gap-4">
+                  {
+                    popularEvents.map((event, index) => (
+                      <EventCardHr event={event} key={index} />
+                    ))
+                  }
+                </div>
+              </> : (
+                <Empty />
+              )}
             </div>
-          </div>
-          <hr className="w-full my-7" />
-          <div className="w-full flex-col gap-4 mb-5">
-            <p className="title-onde-m flex items-center gap-3">
-              <MdPersonOutline size={34} color="#7034D4" />
-              Organizadores
-            </p>
-            <div className="onde-scroll-items bg-gray-100 gap-4">
-              <Organizer />
-              <Organizer />
-              <Organizer />
-              <Organizer />
-              <Organizer />
-              <Organizer />
+          </>}
+          {selectedMenu !== "all" && <>
+            <div className="w-full flex-col gap-4 mt-6">
+              <p className="title-onde-m">Eventos encontrados</p>
+              {filterDateEvents.length > 0 && <>
+                <div className="flex mt-2 grid grid-cols-4 gap-4">
+                  {
+                    filterDateEvents.map((event, index) => (
+                      <EventCardHr event={event} key={index} />
+                    ))
+                  }
+                </div>
+              </>}
+              {filterDateEvents.length === 0 && <>
+                <Empty />
+              </>}
             </div>
-          </div>
+          </>}
+          {organizers.length > 0 && <>
+            <hr className="w-full my-7" />
+            <div className="w-full flex-col gap-4 mb-5">
+              <p className="title-onde-m flex items-center gap-3">
+                <MdPersonOutline size={34} color="#7034D4" />
+                Organizadores
+              </p>
+              <div className="onde-scroll-items bg-gray-100 gap-4">
+                {
+                  organizers.map((organizer, index) => (
+                    <Organizer organizer={organizer} key={index} />
+                  ))
+                }
+              </div>
+            </div>
+          </>}
+
         </div>
       </div>
       <div className="onde-container bg-gray-100">
@@ -303,26 +431,38 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="onde-container">
-        <div className="onde-content flex-col">
-          <div className="w-full flex-col gap-4 mt-6">
-            <p className="title-onde-m">Lugares em destaque</p>
-            <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
-              <LocalCardHr />
+      {bestLocals.length > 0 &&
+        <div className="onde-container">
+          <div className="onde-content flex-col">
+            <div className="w-full flex-col gap-4 mt-6">
+              <p className="title-onde-m">Lugares em destaque</p>
+              <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
+                {
+                  bestLocals.map((local, index) => (
+                    <LocalCardHr local={local} key={index} />
+                  ))
+                }
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="onde-container bg-gray-100">
-        <div className="onde-content">
-          <div className="w-full flex-col gap-4 mt-3">
-            <p className="title-onde-m">Explore as nossas categorias de lugares</p>
-            <div className="flex flex-wrap gap-4 mt-4 mb-5">
-                <LocalCategory category="Restaurantes" />
+      }
+      {localCategories.length > 0 &&
+        <div className="onde-container bg-gray-100">
+          <div className="onde-content">
+            <div className="w-full flex-col gap-4 mt-3">
+              <p className="title-onde-m">Explore as nossas categorias de lugares</p>
+              <div className="flex flex-wrap gap-4 mt-4 mb-5">
+                {
+                  localCategories.map((category, index) => (
+                    <LocalCategory key={index} category={category.name} />
+                  ))
+                }
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
     </>
   );
 }
