@@ -23,6 +23,10 @@
   padding: 2rem 1rem;
 }
 
+.banner-home-image {
+  object-fit: cover;
+}
+
 .onde-drop{
   position: relative;
   display: flex;

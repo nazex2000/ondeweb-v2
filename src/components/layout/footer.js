@@ -15,6 +15,7 @@ function Footer() {
                             src={Logo}
                             alt="Instituto Nilia"
                             className="footer-logo"
+                            priority
                         />
                         <div className='mt-3 flex flex-col items-start justify-start'>
                             <p className='text-onde-s'>

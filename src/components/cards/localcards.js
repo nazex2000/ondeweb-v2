@@ -16,7 +16,7 @@ export function LocalCardHr({ local }) {
 
 
     return (
-        <div className="event-card">
+        <div className="event-card" onClick={() => window.location.href = `/locais/${local?.id}`}>
             <Image
                 src={local?.coverImage}
                 alt="EventImage"
@@ -45,7 +45,7 @@ export function LocalCardVr({ local }) {
 
 
     return (
-        <div className="event-card-vr">
+        <div className="event-card-vr" onClick={() => window.location.href = `/locais/${local?.id}`}>
             <Image
                 src={local?.coverImage}
                 alt="EventImage"
@@ -73,8 +73,8 @@ export function DestinyCard({ destiny }) {
                 src={destiny.image}
                 alt={destiny.name}
                 className='destiny-card-image'
-                layout="fill"
-                objectFit="cover"
+                fill
+                sizes="100%"
             />
             <div className='destiny-card-content'>
                 <p className='title-onde-m'>{destiny.name}</p>

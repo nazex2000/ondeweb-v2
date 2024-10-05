@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Logo from "../../assets/icons/icon.png";
 import { MdMenu, MdClose, MdFacebook, MdLocationPin, MdArrowDropDown } from "react-icons/md";
@@ -10,16 +10,11 @@ import "../css/text.css";
 import "../css/home.css";
 
 const Header = () => {
+    const params = useSearchParams();
     const router = usePathname();
-    const [selectedLocal, setSelectedLocal] = useState('Maputo');
+    const [selectedLocal, setSelectedLocal] = useState(params.get('location') || 'Maputo');
     const [menuOpen, setMenuOpen] = useState(false);
-    const [searchChanged, setSearchChanged] = useState(sessionStorage.getItem("searchFilter"));
-
-    useEffect(() => {
-        if (sessionStorage.getItem("searchFilter")) {
-            setSelectedLocal(sessionStorage.getItem("locationFilter"));
-        }
-    }, [searchChanged]);
+    const [searchChanged, setSearchChanged] = useState();
 
     const handleMenu = (path) => {
         window.location.href = path;
@@ -43,19 +38,18 @@ const Header = () => {
     }
 
     const goSearch = () => {
-        if(router.includes('/evento')){
+        if (router.includes('/evento')) {
             window.location.href = `/eventos/search?name=${search}&location=${selectedLocal}`;
         } else {
             window.location.href = `/locais/search?name=${search}&location=${selectedLocal}`;
         }
-        setSearch('');
     }
 
     return (
         <div className="header">
             <div className="header-content">
                 <div className="logo-container">
-                    <Image src={Logo} alt="Instituto Nilia" className="header-logo" onClick={() => window.location.href = "/"} />
+                    <Image src={Logo} alt="Instituto Nilia" className="header-logo" onClick={() => window.location.href = "/"} priority />
                 </div>
                 <nav className="nav-menu hidden md:flex">
                     <ul>

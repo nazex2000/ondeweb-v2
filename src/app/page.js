@@ -141,8 +141,7 @@ export default function Home() {
           src={Banner}
           alt="Banner"
           className="banner-home-image"
-          layout="fill"
-          objectFit="cover"
+          fill
         />
         <div className="banner-home-container">
           <div className="banner-home-content">
