@@ -10,6 +10,7 @@ import '../../../components/css/text.css';
 import '../../../components/css/explore.css';
 import { fetchLocalById } from "@/components/getters/local";
 import { MdContactPhone, MdLocationPin } from "react-icons/md";
+import { GoogleMap, Marker, LoadScript, useJsApiLoader } from "@react-google-maps/api";
 
 const Empty = () => {
     return (
@@ -51,6 +52,7 @@ export default function Page() {
     const [loading, setLoading] = useState(true);
     const [itemData, setItemData] = useState(null);
     const [state, setState] = useState('Buscando dados...');
+    const [location, setLocation] = useState({ lat: -25.953724, lng: 32.585789 })
 
     useEffect(() => {
         getData(reference);
@@ -62,11 +64,28 @@ export default function Page() {
         if (data) {
             setItemData(data);
             setState(data.name);
+            setLocation({ lat: data.lat, lng: data.lng });
         } else {
             setState('Nenhum lugar encontrado');
         }
         setLoading(false);
     }
+
+    //Map the rows
+    const mapStyles = {
+        height: "40vh",
+        width: "100%",
+        marginTop: "20px",
+        borderRadius: "10px"
+    };
+
+    const libraries = ['geometry', 'drawing', 'places'];
+
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: 'AIzaSyAKPsdDL8JAlXm2RFPrmCJKymcqcGLqNoA',
+        libraries
+    });
 
     return (
         <div className="onde-container">
@@ -87,58 +106,69 @@ export default function Page() {
                     </div>
                 }
                 {!loading && itemData &&
-                <>
-                    <div className="explore-bg-content my-4">
-                        <Image
-                            src={ExploreBg}
-                            alt="LocalImage"
-                            layout="fill"
-                            objectFit="cover"
-                            className="explore-bg"
-                        />
-                        <div className="w-full me-abs">
-                            <div className="flex flex-col mid-explore gap-1">
-                                <Image
-                                    src={itemData.coverImage}
-                                    alt="LocalImage"
-                                    width={500}
-                                    height={300}
-                                    className="explore-cover-image"
-                                />
+                    <>
+                        <div className="explore-bg-content my-4">
+                            <Image
+                                src={ExploreBg}
+                                alt="LocalImage"
+                                layout="fill"
+                                objectFit="cover"
+                                className="explore-bg"
+                            />
+                            <div className="w-full me-abs">
+                                <div className="flex flex-col mid-explore gap-1">
+                                    <Image
+                                        src={itemData.coverImage}
+                                        alt="LocalImage"
+                                        width={500}
+                                        height={300}
+                                        className="explore-cover-image"
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="w-full flex-col gap-4 mb-4 mid-explore">
-                        <p className="title-onde-l">{itemData.name}</p>
-                        <div className="flex flex-wrap gap-2 mt-4">
-                            {itemData.category.map((tag, index) => (
-                                <div className="tag-category" key={index}>
-                                    <p className="text-onde-xs">{tag.name}</p>
-                                </div>
-                            ))}
+                        <div className="w-full flex-col gap-4 mb-4 mid-explore">
+                            <p className="title-onde-l">{itemData.name}</p>
+                            <div className="flex flex-wrap gap-2 mt-4">
+                                {itemData.category.map((tag, index) => (
+                                    <div className="tag-category" key={index}>
+                                        <p className="text-onde-xs">{tag.name}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <p className="title-onde-sm mt-4">Localização</p>
+                            <p className="text-onde-s flex items-center gap-3 mt-2">
+                                <MdLocationPin size={20} color='#7034D4' />
+                                {itemData.location}
+                            </p>
+                            {isLoaded &&
+                                <GoogleMap
+                                    mapContainerStyle={mapStyles}
+                                    zoom={13}
+                                    center={location}
+                                >
+                                    <Marker
+                                        position={{ lat: location.lat, lng: location.lng }}
+                                    />
+                                </GoogleMap>
+                            }
+                            <p className="title-onde-sm mt-4">Descrição</p>
+                            <p className="text-onde-s mt-2">{itemData.description}</p>
+                            <p className="title-onde-sm mt-4">Contacto</p>
+                            <p className="text-onde-s flex items-center gap-3 mt-2">
+                                <MdContactPhone size={20} color='#7034D4' />
+                                {itemData.phone || 'Não disponível'}
+                            </p>
+                            <p className="title-onde-sm mt-4">Tags</p>
+                            <div className="flex flex-wrap gap-2 mt-2">
+                                {itemData.hashtags?.split(' ').map((tag, index) => (
+                                    <div className="tag" key={index}>
+                                        <p className="text-onde-xs">{tag}</p>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                        <p className="title-onde-sm mt-4">Localização</p>
-                        <p className="text-onde-s flex items-center gap-3 mt-2">
-                            <MdLocationPin size={20} color='#7034D4' />
-                            {itemData.location}
-                        </p>
-                        <p className="title-onde-sm mt-4">Descrição</p>
-                        <p className="text-onde-s mt-2">{itemData.description}</p>
-                        <p className="title-onde-sm mt-4">Contacto</p>
-                        <p className="text-onde-s flex items-center gap-3 mt-2">
-                            <MdContactPhone size={20} color='#7034D4' />
-                            {itemData.phone || 'Não disponível'}
-                        </p>
-                        <p className="title-onde-sm mt-4">Tags</p>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                            {itemData.hashtags?.split(' ').map((tag, index) => (
-                                <div className="tag" key={index}>
-                                    <p className="text-onde-xs">{tag}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </>
+                    </>
                 }
             </div>
 
