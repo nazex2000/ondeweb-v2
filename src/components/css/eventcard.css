@@ -50,6 +50,10 @@
   border-radius: 10px;
 }
 
+.eci-vr-ext{
+  height: 130px;
+}
+
 .content-vr {
   max-width: 50%;
 }

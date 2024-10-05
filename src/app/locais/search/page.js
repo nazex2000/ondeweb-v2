@@ -121,9 +121,9 @@ export default function Page() {
     const filterByCategory = (locals) => {
         if (categoryFilter === '') return locals;
         return locals.filter(local => {
-            return Array.isArray(local.category)
-                ? local.category.some(cat => cat.name === categoryFilter)
-                : false;
+            console.log(local.category);
+            return local.category.some(cat => (cat.name).includes(categoryFilter));
+            
         });
     }
 

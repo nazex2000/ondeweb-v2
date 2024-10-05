@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 //css
 import '../../components/css/text.css';
@@ -64,8 +65,13 @@ function Bread() {
 }
 
 export default function Page() {
+    const search = useSearchParams();
+
     useEffect(() => {
         getLocalData(selectedLocation);
+        if (search.get('category')) {
+            setSelectedCategory(search.get('category'));
+        }
     }, []);
 
     //Location Information
@@ -120,9 +126,7 @@ export default function Page() {
         if (selectedCategory === 'Todos') {
             return local;
         }
-        return Array.isArray(local.category)
-            ? local.category.some(cat => cat.name === selectedCategory)
-            : local.category?.name === selectedCategory;
+        return local?.category?.some(cat => cat.name.includes(selectedCategory));
     });
 
 
@@ -169,31 +173,8 @@ export default function Page() {
                             </div>
                         </div>
                     </div>
-                    <div className="menu-explore my-2">
-                        <div className="menu-explore-content">
-                            <div
-                                className={`menu-explore-item ${selectedCategory === 'Todos' ? 'mei-active' : ''}`}
-                                key={0}
-                                onClick={() => setSelectedCategory('Todos')}
-                            >
-                                <MdSelectAll size={20} />
-                                <p className="text-onde-xs">Todos</p>
-                            </div>
-                            {
-                                localCategories.map((category, index) => (
-                                    <div
-                                        className={`menu-explore-item ${selectedCategory === category.name ? 'mei-active' : ''}`}
-                                        key={index + 1}
-                                        onClick={() => setSelectedCategory(category.name)}
-                                    >
-                                        <MdArrowOutward size={20} />
-                                        <p className="text-onde-xs">{category.name}</p>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    </div>
                     {loadingLocals ? <>
+                        <Skeleton variant="text" width="100%" height={70} />
                         <div className="w-full grid grid-cols-4 gap-4 mt-6">
                             {Array.from({ length: 8 }).map((_, index) => (
                                 <div className="flex flex-col gap-1" key={index}>
@@ -203,21 +184,47 @@ export default function Page() {
                                 </div>
                             ))}
                         </div>
-                    </>:
-                        <div className="w-full flex-col gap-4 my-6">
-                            <p className="title-onde-m">Lugares em {selectedLocation}</p>
-                            {filteredLocals.length > 0 ?
-                                <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
+                    </> :
+                        <>
+                            <div className="menu-explore my-2">
+                                <div className="menu-explore-content">
+                                    <div
+                                        className={`menu-explore-item ${selectedCategory === 'Todos' ? 'mei-active' : ''}`}
+                                        key={0}
+                                        onClick={() => setSelectedCategory('Todos')}
+                                    >
+                                        <MdSelectAll size={20} />
+                                        <p className="text-onde-xs">Todos</p>
+                                    </div>
                                     {
-                                        filteredLocals.map((local, index) => (
-                                            <LocalCardHr local={local} key={index} />
+                                        localCategories.map((category, index) => (
+                                            <div
+                                                className={`menu-explore-item ${selectedCategory === category.name ? 'mei-active' : ''}`}
+                                                key={index + 1}
+                                                onClick={() => setSelectedCategory(category.name)}
+                                            >
+                                                <MdArrowOutward size={20} />
+                                                <p className="text-onde-xs">{category.name}</p>
+                                            </div>
                                         ))
                                     }
                                 </div>
-                                :
-                                <Empty />
-                            }
-                        </div>
+                            </div>
+                            <div className="w-full flex-col gap-4 my-6">
+                                <p className="title-onde-m">Lugares em {selectedLocation}</p>
+                                {filteredLocals.length > 0 ?
+                                    <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
+                                        {
+                                            filteredLocals.map((local, index) => (
+                                                <LocalCardHr local={local} key={index} />
+                                            ))
+                                        }
+                                    </div>
+                                    :
+                                    <Empty />
+                                }
+                            </div>
+                        </>
                     }
                 </div>
             </div>

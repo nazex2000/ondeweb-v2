@@ -134,7 +134,7 @@ export default function Page() {
                             <p className="title-onde-l">{itemData.name}</p>
                             <div className="flex flex-wrap gap-2 mt-4">
                                 {itemData.category.map((tag, index) => (
-                                    <div className="tag-category" key={index}>
+                                    <div className="tag-category" key={index} onClick={() => window.location.href = `/locais?category=${tag.name}`} >
                                         <p className="text-onde-xs">{tag.name}</p>
                                     </div>
                                 ))}

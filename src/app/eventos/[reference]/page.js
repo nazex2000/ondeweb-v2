@@ -9,8 +9,9 @@ import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import '../../../components/css/text.css';
 import '../../../components/css/explore.css';
 import { fetchLocalById } from "@/components/getters/local";
-import { MdContactPhone, MdLocationPin } from "react-icons/md";
+import { MdCalendarMonth, MdCalendarToday, MdContactPhone, MdLocationPin } from "react-icons/md";
 import { GoogleMap, Marker, LoadScript, useJsApiLoader } from "@react-google-maps/api";
+import { getEventById } from "@/components/getters/events";
 
 const libraries = ['geometry', 'drawing', 'places'];
 
@@ -23,7 +24,7 @@ const Empty = () => {
                 width={200}
                 height={200}
             />
-            <p className="text-onde-s">Nenhum lugar encontrado</p>
+            <p className="text-onde-s">Nenhum evento encontrado</p>
         </div>
     );
 }
@@ -37,9 +38,9 @@ function Bread({ last }) {
                 <p className="text-onde-xs">Home</p>
             </BreadcrumbItem>
             <BreadcrumbItem
-                href="/locais"
+                href="/eventos"
             >
-                <p className="text-onde-xs">Lugares</p>
+                <p className="text-onde-xs">Eventos</p>
             </BreadcrumbItem>
             <BreadcrumbItem
             >
@@ -62,13 +63,13 @@ export default function Page() {
 
     const getData = async (id) => {
         setLoading(true);
-        const data = await fetchLocalById(id);
+        const data = await getEventById(id);
         if (data) {
             setItemData(data);
             setState(data.name);
             setLocation({ lat: data.lat, lng: data.lng });
         } else {
-            setState('Nenhum lugar encontrado');
+            setState('Nenhum evento encontrado');
         }
         setLoading(false);
     }
@@ -86,6 +87,16 @@ export default function Page() {
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
         libraries
     });
+
+    const timestampToDate = (timestamp) => {
+        const date = new Date(timestamp?.seconds * 1000);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Os meses são indexados a partir de 0
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${day}/${month}/${year}`;
+    }
 
     return (
         <div className="onde-container">
@@ -134,7 +145,7 @@ export default function Page() {
                             <p className="title-onde-l">{itemData.name}</p>
                             <div className="flex flex-wrap gap-2 mt-4">
                                 {itemData.category.map((tag, index) => (
-                                    <div className="tag-category" key={index}>
+                                    <div className="tag-category" key={index} onClick={() => window.location.href = `/eventos?category=${tag.name}`} >
                                         <p className="text-onde-xs">{tag.name}</p>
                                     </div>
                                 ))}
@@ -142,11 +153,15 @@ export default function Page() {
 
                             <p className="title-onde-sm mt-4">Descrição</p>
                             <p className="text-onde-s mt-2">{itemData.description}</p>
-
+                            <p className="title-onde-sm mt-4">Data</p>
+                            <p className="text-onde-s flex items-center gap-3 mt-2">
+                                <MdCalendarToday size={20} color='#7034D4' />
+                                {timestampToDate(itemData.data)}  {itemData?.time}
+                            </p>
                             <p className="title-onde-sm mt-4">Localização</p>
                             <p className="text-onde-s flex items-center gap-3 mt-2">
                                 <MdLocationPin size={20} color='#7034D4' />
-                                {itemData.location}
+                                {itemData.location + ', ' + itemData.locationName}
                             </p>
                             {isLoaded &&
                                 <GoogleMap
@@ -163,7 +178,7 @@ export default function Page() {
                             <p className="title-onde-sm mt-4">Contacto</p>
                             <p className="text-onde-s flex items-center gap-3 mt-2">
                                 <MdContactPhone size={20} color='#7034D4' />
-                                {itemData.phone || 'Não disponível'}
+                                {itemData?.organizer?.phone || 'Não disponível'}
                             </p>
                             
                             <p className="title-onde-sm mt-4">Tags</p>

@@ -1,6 +1,36 @@
 import { firebase } from '../../base'
 
 
+export const getEventById = async (id) => {
+    try {
+        const doc = await firebase.firestore()
+            .collection('evento')
+            .doc(id)
+            .get()
+        if (!doc.exists) {
+            return null
+        }
+        return {
+            ...doc.data(),
+            id: doc.id
+        }
+    }
+    catch (error) {
+        return null
+    }
+}
+
+
+export const getEventCategories = async () => {
+    if (sessionStorage.getItem('eventCategories')) {
+        return JSON.parse(sessionStorage.getItem('eventCategories'))
+    } else {
+        const categories = await fetchEventCategories()
+        sessionStorage.setItem('eventCategories', JSON.stringify(categories))
+        return categories
+    }
+}
+
 export const getOrganizers = async () => {
     if (sessionStorage.getItem('organizers')) {
         return JSON.parse(sessionStorage.getItem('organizers'))
@@ -81,6 +111,23 @@ export const fetchEvents = async () => {
         events = shuffleArray(events);
         sessionStorage.setItem('events', JSON.stringify(events))
         return events;
+    } catch (error) {
+        return []
+    }
+}
+
+export const fetchEventCategories = async () => {
+    try {
+        const snapshot = await firebase.firestore()
+            .collection('categoria')
+            .get()
+        let categories = snapshot.docs.map(doc => {
+            return {
+                ...doc.data(),
+                id: doc.id
+            };
+        });
+        return categories;
     } catch (error) {
         return []
     }

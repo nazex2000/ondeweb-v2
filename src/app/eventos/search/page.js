@@ -12,6 +12,8 @@ import '../../../components/css/explore.css';
 import Image from "next/image";
 import { LocalCardVr } from "@/components/cards/localcards";
 import Fuse from 'fuse.js';
+import { getAllEvents, getEventCategories } from "@/components/getters/events";
+import { EventCardVr } from "@/components/cards/eventcards";
 
 
 const Empty = () => {
@@ -23,7 +25,7 @@ const Empty = () => {
                 width={200}
                 height={200}
             />
-            <p className="text-onde-s">Nenhum lugar encontrado</p>
+            <p className="text-onde-s">Nenhum evento encontrado</p>
         </div>
     );
 }
@@ -37,9 +39,9 @@ function Bread() {
                 <p className="text-onde-xs">Home</p>
             </BreadcrumbItem>
             <BreadcrumbItem
-                href="/locais"
+                href="/eventos"
             >
-                <p className="text-onde-xs">Lugares</p>
+                <p className="text-onde-xs">Eventos</p>
             </BreadcrumbItem>
             <BreadcrumbItem
             >
@@ -62,12 +64,12 @@ export default function Page() {
         setTimeout(() => {
             setLoadingParams(false);
             fetchExploreCategories();
-            fetchLocals();
+            fetchEvents();
         }, 100);
     }, []);
 
     const goSearch = async (category) => {
-        window.location.href = `/locais/search?name=${searchFilter}&location=${locationFilter}&category=${category}`;
+        window.location.href = `/eventos/search?name=${searchFilter}&location=${locationFilter}&category=${category}`;
     }
 
     //Filters
@@ -82,7 +84,7 @@ export default function Page() {
 
     const fetchExploreCategories = async () => {
         setLoadingFilters(true);
-        let localCat = await getLocalCategories();
+        let localCat = await getEventCategories();
         setExploreCategories(localCat);
         setLoadingFilters(false);
     }
@@ -94,13 +96,12 @@ export default function Page() {
     const [loadingResults, setLoadingResults] = useState(true);
     const [results, setResults] = useState([]);
 
-    const fetchLocals = async () => {
+    const fetchEvents = async () => {
         setLoadingResults(true);
-        let bestLoc = await getBestLocals();
-        console.log(locationFilter);
-        let dados = (bestLoc?.filter(locat => locat?.location?.toLowerCase().includes(locationFilter?.toLowerCase())));
+        let bestLoc = await getAllEvents();
+        let dados = (bestLoc?.filter(locat => locat?.locationName?.toLowerCase().includes(locationFilter?.toLowerCase())));
         dados = filterByCategory(dados);
-        if(searchFilter) dados = filterByFuse(dados);
+        if (searchFilter) dados = filterByFuse(dados);
         setResults(dados);
         setLoadingResults(false);
     }
@@ -121,15 +122,14 @@ export default function Page() {
     const filterByCategory = (locals) => {
         if (categoryFilter === '') return locals;
         return locals.filter(local => {
-            return Array.isArray(local.category)
-                ? local.category.some(cat => cat.name === categoryFilter)
-                : false;
+            return local.category.some(cat => (cat.name).includes(categoryFilter));
+
         });
     }
 
     const filterByFuse = (locals) => {
         const fuse = new Fuse(locals, {
-            keys: ['name',  'hashtags', 'description'],
+            keys: ['name', 'hashtags', 'description', 'description_en'],
             includeScore: true,
         });
         return fuse.search(searchFilter).map(result => result.item);
@@ -152,7 +152,7 @@ export default function Page() {
                 </>}
                 {!loadingParams && <>
                     <div className="w-full flex-col gap-4 my-4">
-                        <p className="title-onde-m">Resultados para {searchFilter} {categoryFilter?(<>[{categoryFilter}]</>):null} em {locationFilter}</p>
+                        <p className="title-onde-m">Resultados para {searchFilter} {categoryFilter ? (<>[{categoryFilter}]</>) : null} em {locationFilter}</p>
                         <div className="w-full flex gap-4 mt-3">
                             <div className="w-1/4 flex-col gap-4">
                                 <p className="title-onde-sm">Filtros</p>
@@ -223,13 +223,13 @@ export default function Page() {
                                             <>
                                                 <div className="flex mt-2 grid grid-cols-1 gap-4 mb-5">
                                                     {
-                                                        results.map((local, index) => (
-                                                            <LocalCardVr local={local} key={index} />
+                                                        results.map((ev, index) => (
+                                                            <EventCardVr event={ev} key={index} />
                                                         ))
                                                     }
                                                 </div>
                                             </> :
-                                            <Empty/>
+                                            <Empty />
                                         }
                                     </>
                                 }

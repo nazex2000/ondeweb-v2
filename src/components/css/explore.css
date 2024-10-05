@@ -165,6 +165,11 @@
     padding: 0.3rem 1rem;
     border-radius: 25px;
     background-color: #EFEFEF;
+    cursor: pointer;
+}
+
+.tag:hover {
+    background-color: #D9D9D9;
 }
 
 .tag-category {
@@ -175,4 +180,10 @@
     align-items: center;
     gap: 0.5rem;
     color: #5f2fbc;
+    cursor: pointer;
+}
+
+.tag-category:hover {
+    background-color: #5f2fbc;
+    color: white;
 }
