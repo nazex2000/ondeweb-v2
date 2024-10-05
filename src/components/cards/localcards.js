@@ -68,7 +68,7 @@ export function LocalCardVr({ local }) {
 
 export function DestinyCard({ destiny }) {
     return (
-        <div className='destiny-card'>
+        <div className='destiny-card' onClick={() => window.location.href = `/locais/search?location=${destiny.name}`}>
             <Image
                 src={destiny.image}
                 alt={destiny.name}
@@ -83,9 +83,9 @@ export function DestinyCard({ destiny }) {
     );
 }
 
-export function LocalCategory({ category }) {
+export function LocalCategory({ category, local }) {
     return (
-        <div className='local-category'>
+        <div className='local-category' onClick={() => window.location.href = `/locais/search?category=${category}&location=${local}`}>
             <p className="text-onde-s">{category}</p>
             <MdArrowOutward size={20} color='gray' />
         </div>

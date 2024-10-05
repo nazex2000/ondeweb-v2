@@ -42,7 +42,6 @@ function Bread() {
                 <p className="text-onde-xs">Lugares</p>
             </BreadcrumbItem>
             <BreadcrumbItem
-                href="/locais/search"
             >
                 <p className="text-onde-xs">Resultados</p>
             </BreadcrumbItem>
@@ -67,10 +66,14 @@ export default function Page() {
         }, 100);
     }, []);
 
+    const goSearch = (category) => {
+        window.location.href = `/locais/search?name=${searchFilter}&location=${locationFilter}&category=${category}`;
+    }
+
     //Filters
     const [loadingFilters, setLoadingFilters] = useState(true);
     const [exploreCategories, setExploreCategories] = useState([]);
-    const [orderFilter, setOrderFilter] = useState('most-popular');
+    const [orderFilter, setOrderFilter] = useState(null);
     const [orderOptions, setOrderOptions] = useState([
         { name: 'Mais populares', value: 'most-popular' },
         { name: 'A-Z', value: 'a-z' },
@@ -97,9 +100,7 @@ export default function Page() {
         console.log(locationFilter);
         let dados = (bestLoc?.filter(locat => locat?.location?.toLowerCase().includes(locationFilter?.toLowerCase())));
         dados = filterByCategory(dados);
-        console.log(dados);
-        dados = filterByFuse(dados);
-        console.log(dados);
+        if(searchFilter) dados = filterByFuse(dados);
         setResults(dados);
         setLoadingResults(false);
     }
@@ -128,7 +129,7 @@ export default function Page() {
 
     const filterByFuse = (locals) => {
         const fuse = new Fuse(locals, {
-            keys: ['name',  'hashtags'],
+            keys: ['name',  'hashtags', 'description'],
             includeScore: true,
         });
         return fuse.search(searchFilter).map(result => result.item);
@@ -151,7 +152,7 @@ export default function Page() {
                 </>}
                 {!loadingParams && <>
                     <div className="w-full flex-col gap-4 my-4">
-                        <p className="title-onde-m">Resultados para {searchFilter} em {locationFilter}</p>
+                        <p className="title-onde-m">Resultados para {searchFilter} {categoryFilter?(<>[{categoryFilter}]</>):null} em {locationFilter}</p>
                         <div className="w-full flex gap-4 mt-3">
                             <div className="w-1/4 flex-col gap-4">
                                 <p className="title-onde-sm">Filtros</p>
@@ -174,7 +175,7 @@ export default function Page() {
                                                         className={`item-category ${category.name === searchFilter ? 'ic-active' : ''}`}
                                                         key={index}
                                                         onClick={() => {
-                                                            setSearchFilter(category.name);
+                                                            goSearch(category.name);
                                                         }}
                                                     >
                                                         <MdSelectAll size={20} />

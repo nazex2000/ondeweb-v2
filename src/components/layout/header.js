@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Logo from "../../assets/icons/icon.png";
@@ -13,6 +13,13 @@ const Header = () => {
     const router = usePathname();
     const [selectedLocal, setSelectedLocal] = useState('Maputo');
     const [menuOpen, setMenuOpen] = useState(false);
+    const [searchChanged, setSearchChanged] = useState(sessionStorage.getItem("searchFilter"));
+
+    useEffect(() => {
+        if (sessionStorage.getItem("searchFilter")) {
+            setSelectedLocal(sessionStorage.getItem("locationFilter"));
+        }
+    }, [searchChanged]);
 
     const handleMenu = (path) => {
         window.location.href = path;
@@ -25,12 +32,23 @@ const Header = () => {
         }
         return title
     }
+    //inputs
+    const [search, setSearch] = useState('');
 
     //Location Picker
     const provinces = ["Maputo", "Gaza", "Inhambane", "Sofala", "Manica", "Tete", "Zambezia", "Nampula", "Cabo Delgado", "Niassa"];
 
     const handleLocal = (province) => {
         setSelectedLocal(province);
+    }
+
+    const goSearch = () => {
+        if(router.includes('/evento')){
+            window.location.href = `/eventos/search?name=${search}&location=${selectedLocal}`;
+        } else {
+            window.location.href = `/locais/search?name=${search}&location=${selectedLocal}`;
+        }
+        setSearch('');
     }
 
     return (
@@ -107,7 +125,7 @@ const Header = () => {
                     </div>
                 }
             </div>
-            {(router === '/locais' || router === '/evento') &&
+            {(router.includes('/locais') || router.includes('/evento')) &&
                 <div className="search-container">
                     <div className="location-search">
                         <MdLocationPin size={20} color='#7034D4' />
@@ -131,9 +149,9 @@ const Header = () => {
                     </div>
                     <div className="text-search">
                         <FaSearch size={20} color='#7034D4' />
-                        <input type="text" placeholder="Pesquisar" className="search-input" />
+                        <input type="text" placeholder="Pesquisar" className="search-input" value={search} onChange={(e) => setSearch(e.target.value)} />
                     </div>
-                    <div className="search-button">
+                    <div className="search-button" onClick={goSearch}>
                         Pesquisar
                     </div>
                 </div>

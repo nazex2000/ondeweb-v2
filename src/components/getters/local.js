@@ -20,6 +20,24 @@ export const getBestLocals = async () => {
     }
 }
 
+export const fetchLocalById = async (id) => {
+    try {
+        const doc = await firebase.firestore()
+            .collection('local')
+            .doc(id)
+            .get()
+        if (!doc.exists) {
+            return
+        }
+        return {
+            ...doc.data(),
+            id: doc.id
+        }
+    } catch (error) {
+        return
+    }
+}
+
 export const fetchLocalCategories = async () => {
     try {
         const snapshot = await firebase.firestore()

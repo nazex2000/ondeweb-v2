@@ -495,7 +495,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-4 mt-4 mb-5">
                 {
                   localCategories.map((category, index) => (
-                    <LocalCategory key={index} category={category.name} />
+                    <LocalCategory key={index} category={category.name} local={selectedLocal} />
                   ))
                 }
               </div>
