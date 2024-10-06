@@ -57,7 +57,7 @@ const Header = () => {
                             <a href="/">Home</a>
                         </li>
                         <li className="dropdown">
-                            <a href="/evento">Eventos</a>
+                            <a href="/eventos">Eventos</a>
                         </li>
                         <li className="dropdown">
                             <a href="/locais">Locais</a>
@@ -66,14 +66,14 @@ const Header = () => {
                             <a href="/sponsors">Patrocinadores</a>
                         </li>
                         <li>
-                            <a href="/about">Sobre nós</a>
+                            <a href="/sobre">Sobre nós</a>
                         </li>
                         <li>
                             <a href="/contactos">Contactos</a>
                         </li>
                     </ul>
                 </nav>
-                <div className="justify-center items-center md:flex ml-auto gap-3">
+                <div className="justify-center items-center hidden md:flex ml-auto gap-3">
                     <div className="bg-white rounded-full flex items-center justify-center p-1 cursor-pointer">
                         <MdFacebook size={15} color='#7034D4' />
                     </div>
@@ -95,7 +95,7 @@ const Header = () => {
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#ff812e' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/evento')}>Eventos</p>
+                            <p className="nilia-text-m" onClick={() => handleMenu('/eventos')}>Eventos</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#ff812e' />
@@ -107,7 +107,7 @@ const Header = () => {
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#ff812e' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/about')}>Sobre nós</p>
+                            <p className="nilia-text-m" onClick={() => handleMenu('/sobre')}>Sobre nós</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#ff812e' />

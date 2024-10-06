@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect} from "react";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 import EmptyImage from '../../../assets/images/empty.png';
