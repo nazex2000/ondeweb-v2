@@ -1,0 +1,16 @@
+.contact-container {
+    width: 100%;
+    min-height: 50vh;
+    box-shadow: 10px 12px 26px -15px #4f259c;
+    border-radius: 15px;
+    background-color: #EFEFEF;
+}
+
+.contact-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4f259c;
+    text-align: left;
+    margin-top: 2rem;
+    font-family: 'Montserrat', sans-serif;
+}
