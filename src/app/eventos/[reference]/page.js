@@ -10,7 +10,7 @@ import '../../../components/css/text.css';
 import '../../../components/css/explore.css';
 import { fetchLocalById } from "@/components/getters/local";
 import { MdCalendarMonth, MdCalendarToday, MdContactPhone, MdLocationPin } from "react-icons/md";
-import { GoogleMap, Marker, LoadScript, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { getEventById } from "@/components/getters/events";
 
 const libraries = ['geometry', 'drawing', 'places'];

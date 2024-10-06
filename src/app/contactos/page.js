@@ -24,14 +24,15 @@ function Bread() {
     );
 }
 
+
 export default function Page() {
     return (
         <div className="onde-container">
             <div className="onde-content flex-col pb-4">
                 <Bread />
                 <div className="flex flex-col md:flex-row justify-between items-center mt-8 mb-4">
-                    <div className="w-full md:w-1/2 flex flex-col items-center md:items-start gap-4">
-                        <p className="title-onde-l text-[#5f2fbc]">Encontre a melhor solução para o seu negócio com a ONDE</p>
+                    <div className="w-full md:w-1/2 flex flex-col items-center md:items-start gap-4 pr-8">
+                        <p className="title-onde-l text-[#5f2fbc] pr-8" style={{fontSize: '2.4rem', lineHeight:'45px', fontWeight:'700'}}>Encontre a melhor solução para o seu negócio com a ONDE</p>
                         <p className="text-onde-s">
                             Aproveite o maior mercado de eventos do mundo e alcance mais consumidores que procuram eventos como o seu com nossas ferramentas de marketing de eventos líderes do setor. Pronto para dar vida ao seu próximo evento?
                         </p>
@@ -54,6 +55,17 @@ export default function Page() {
                             <p className="title-onde-s text-center text-[#5f2fbc]">Horário de Atendimento</p>
                             <p className="text-onde-s text-center">Segunda a Sexta-feira: 08:00 - 17:00</p>
                         </div>
+                    </div>
+                    <div className="w-full md:w-1/2 flex flex-col items-center md:items-start gap-4">
+                        <form className="flex flex-col gap-4 w-full px-12">
+                            <input type="text" placeholder="Nome" className="input-onde" />
+                            <input type="email" placeholder="Email de Trabalho" className="input-onde" />
+                            <input type="text" placeholder="Telefone" className="input-onde" />
+                            <input type="text" placeholder="Nome da Empresa" className="input-onde" />
+                            <input type="text" placeholder="Assunto" className="input-onde" />
+                            <textarea placeholder="Mensagem" className="input-onde h-36"></textarea>
+                            <button className="btn-onde">Enviar</button>
+                        </form>
                     </div>
                 </div>
             </div>

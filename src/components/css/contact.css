@@ -14,3 +14,26 @@
     margin-top: 2rem;
     font-family: 'Montserrat', sans-serif;
 }
+
+.input-onde {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    background-color: #eceaea;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+}
+
+.btn-onde {
+    background-color: #4f259c;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.btn-onde:hover {
+    background-color: #3f158c;
+}
