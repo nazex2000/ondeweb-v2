@@ -19,6 +19,7 @@
     "@nextui-org/theme": "^2.2.11",
     "@react-google-maps/api": "^2.19.3",
     "autoprefixer": "^10.4.20",
+    "dayjs": "^1.11.13",
     "firebase": "^10.14.0",
     "framer-motion": "^11.11.1",
     "fuse.js": "^7.0.0",

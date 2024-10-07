@@ -62,9 +62,6 @@ const Header = () => {
                         <li className="dropdown">
                             <a href="/locais">Locais</a>
                         </li>
-                        <li className="dropdown">
-                            <a href="/sponsors">Patrocinadores</a>
-                        </li>
                         <li>
                             <a href="/sobre">Sobre nós</a>
                         </li>
@@ -90,32 +87,25 @@ const Header = () => {
                 {menuOpen &&
                     <div className='menu-bar-mobile  block md:hidden'>
                         <p className='text-menu'>
-                            <FaArrowRight size={17} color='#ff812e' />
+                            <FaArrowRight size={17} color='#7034D4' />
                             <p className="nilia-text-m" onClick={() => handleMenu('/')}>Home</p>
                         </p>
                         <p className='text-menu'>
-                            <FaArrowRight size={17} color='#ff812e' />
+                            <FaArrowRight size={17} color='#7034D4' />
                             <p className="nilia-text-m" onClick={() => handleMenu('/eventos')}>Eventos</p>
                         </p>
                         <p className='text-menu'>
-                            <FaArrowRight size={17} color='#ff812e' />
+                            <FaArrowRight size={17} color='#7034D4' />
                             <p className="nilia-text-m" onClick={() => handleMenu('/locais')}>Locais</p>
                         </p>
                         <p className='text-menu'>
-                            <FaArrowRight size={17} color='#ff812e' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/sponsors')}>Patrocinadores</p>
-                        </p>
-                        <p className='text-menu'>
-                            <FaArrowRight size={17} color='#ff812e' />
+                            <FaArrowRight size={17} color='#7034D4' />
                             <p className="nilia-text-m" onClick={() => handleMenu('/sobre')}>Sobre nós</p>
                         </p>
                         <p className='text-menu'>
-                            <FaArrowRight size={17} color='#ff812e' />
+                            <FaArrowRight size={17} color='#7034D4' />
                             <p className="nilia-text-m" onClick={() => handleMenu('/contactos')}>Contactos</p>
                         </p>
-                        <div className='flex flex-row gap-2 mt-16'>
-                            <MdFacebook size={30} color='#ff812e' />
-                        </div>
                     </div>
                 }
             </div>

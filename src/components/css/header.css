@@ -30,7 +30,6 @@
 
 .header-logo {
     width: 50px !important;
-    height: 50px !important;
 }
 
 .nav-menu ul {
@@ -198,3 +197,6 @@
   background-color: #5f2fbc;
 }
 
+.menu-icon {
+margin-left: auto;
+}

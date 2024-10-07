@@ -97,7 +97,6 @@ export function Organizer({ organizer }) {
                 className="organizer-card-image"
             />
             <p className="event-card-title">{trimOrganizer(organizer.name)}</p>
-            <ButtonOnde title="ver" />
         </div>
     );
 }
