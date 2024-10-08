@@ -16,9 +16,12 @@ import { getAllEvents, getEventCategories } from "@/components/getters/events";
 import { EventCardVr } from "@/components/cards/eventcards";
 import dayJS from 'dayjs';
 import { DateRangePicker } from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
+import '../../../utilis/i18n';
 
 
 const Empty = () => {
+    const { t, i18n } = useTranslation();    
     return (
         <div className="flex-col flex justify-center items-center w-full">
             <Image
@@ -27,12 +30,13 @@ const Empty = () => {
                 width={200}
                 height={200}
             />
-            <p className="text-onde-s">Nenhum evento encontrado</p>
+            <p className="text-onde-s">{t("Nenhum evento encontrado")}</p>
         </div>
     );
 }
 
 function Bread() {
+    const { t, i18n } = useTranslation();
     return (
         <Breadcrumbs>
             <BreadcrumbItem
@@ -43,17 +47,18 @@ function Bread() {
             <BreadcrumbItem
                 href="/eventos"
             >
-                <p className="text-onde-xs">Eventos</p>
+                <p className="text-onde-xs">{t('Eventos')}</p>
             </BreadcrumbItem>
             <BreadcrumbItem
             >
-                <p className="text-onde-xs">Resultados</p>
+                <p className="text-onde-xs">{t('Resultados')}</p>
             </BreadcrumbItem>
         </Breadcrumbs>
     );
 }
 
 export default function Page() {
+    const { t, i18n } = useTranslation();
 
     //search information
     const search = useSearchParams();
@@ -81,7 +86,7 @@ export default function Page() {
     const [exploreCategories, setExploreCategories] = useState([]);
     const [orderFilter, setOrderFilter] = useState(null);
     const [orderOptions, setOrderOptions] = useState([
-        { name: 'Mais populares', value: 'most-popular' },
+        { name: t('Mais populares'), value: 'most-popular' },
         { name: 'A-Z', value: 'a-z' },
         { name: 'Z-A', value: 'z-a' },
     ]);
@@ -158,10 +163,10 @@ export default function Page() {
     const [dataFilter, setDataFilter] = useState(search.get('type') || null);
     const [showCalendar, setShowCalendar] = useState(false);
     const dataOption = [
-        { name: 'Hoje', value: 'today' },
-        { name: 'Esta semana', value: 'this-week' },
-        { name: 'Este mês', value: 'this-month' },
-        { name: 'Escolher data', value: 'choose-date' },
+        { name: t('Hoje'), value: 'today' },
+        { name: t('Esta semana'), value: 'this-week' },
+        { name: t('Este mês'), value: 'this-month' },
+        { name: t('Escolher data'), value: 'choose-date' },
     ];
     const [dataRange, setDataRange] = useState({ start: null, end: null });
 
@@ -220,10 +225,10 @@ export default function Page() {
                 </>}
                 {!loadingParams && <>
                     <div className="w-full flex-col gap-4 my-4">
-                        <p className="title-onde-m">Resultados para {searchFilter} {categoryFilter ? (<>[{categoryFilter}]</>) : null} em {locationFilter}</p>
+                        <p className="title-onde-m">{t('Resultados para')} {searchFilter} {categoryFilter ? (<>[{categoryFilter}]</>) : null} {t('em')} {locationFilter}</p>
                         <div className="w-full flex gap-10 mt-3">
                             <div className="w-1/4 flex-col gap-4">
-                                <p className="title-onde-sm">Filtros</p>
+                                <p className="title-onde-sm">{t("Filtros")}</p>
                                 {loadingFilters ? <>
                                     <div className="w-full grid grid-cols-1 gap-4 mt-3">
                                         {Array.from({ length: 8 }).map((_, index) => (
@@ -234,7 +239,7 @@ export default function Page() {
                                     </div>
                                 </> : <>
                                     <div className="w-full flex-col gap-4 mt-3">
-                                        <p className="title-onde-s">Data</p>
+                                        <p className="title-onde-s">{t("Data")}</p>
                                         <div className="w-full grid grid-cols-1 gap-2 mt-2">
                                             <RadioGroup
                                                 value={dataFilter}
@@ -250,7 +255,7 @@ export default function Page() {
                                             <div className="w-full mt-2">
                                                 {dataFilter === 'choose-date' && <>
                                                     <DateRangePicker
-                                                        label="selecione o intervalo de datas"
+                                                        label={t("selecione o intervalo de datas")}
                                                         visibleMonths={2}
                                                         pageBehavior="single"
                                                         size="sm"
@@ -262,7 +267,7 @@ export default function Page() {
                                         </div>
                                     </div>
                                     <div className="w-full flex-col gap-4 mt-3">
-                                        <p className="title-onde-s">Categorias</p>
+                                        <p className="title-onde-s">{t("Categorias")}</p>
                                         <div className="w-full grid grid-cols-1 gap-2 mt-2">
                                             {exploreCategories
                                                 .slice(0, collapse ? exploreCategories.length : 5)
@@ -275,16 +280,16 @@ export default function Page() {
                                                         }}
                                                     >
                                                         <MdSelectAll size={20} />
-                                                        <p className="text-onde-xs">{category.name}</p>
+                                                        <p className="text-onde-xs">{i18n.language === 'pt' ? category.name : category.name_en}</p>
                                                     </div>
                                                 ))}
                                             <div className="collapse-button mt-2" onClick={() => setCollapse(!collapse)}>
-                                                <p className="text-onde-xs">{collapse ? 'Ver menos' : 'Ver mais'}</p>
+                                                <p className="text-onde-xs">{collapse ? <>{t("Ver menos")}</> : <>{t("Ver mais")}</>}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="w-full flex-col gap-4 mt-4">
-                                        <p className="title-onde-s">Ordenar por</p>
+                                        <p className="title-onde-s">{t("Ordenar por")}</p>
                                         <div className="w-full grid grid-cols-1 gap-2 mt-2">
                                             <RadioGroup
                                                 value={orderFilter}

@@ -30,9 +30,11 @@ import EmptyImage from '../../assets/images/empty.png';
 
 //skeleton
 import Skeleton from '@mui/material/Skeleton';
-
+import { useTranslation } from "react-i18next";
+import '../../utilis/i18n';
 
 const Empty = () => {
+    const { t, i18n } = useTranslation();   
     return (
         <div className="flex-col flex justify-center items-center w-full">
             <Image
@@ -41,13 +43,13 @@ const Empty = () => {
                 width={200}
                 height={200}
             />
-            <p className="text-onde-s">Nenhum lugar encontrado</p>
+            <p className="text-onde-s">{t('Nenhum lugar encontrado')}</p>
         </div>
     );
 }
 
 function Bread() {
-
+    const { t, i18n } = useTranslation();
     return (
         <Breadcrumbs>
             <BreadcrumbItem
@@ -58,7 +60,7 @@ function Bread() {
             <BreadcrumbItem
                 href="/locais"
             >
-                <p className="text-onde-xs">Lugares</p>
+                <p className="text-onde-xs">{t('Lugares')}</p>
             </BreadcrumbItem>
         </Breadcrumbs>
     );
@@ -66,7 +68,8 @@ function Bread() {
 
 export default function Page() {
     const search = useSearchParams();
-
+    const { t, i18n } = useTranslation();
+    
     useEffect(() => {
         getLocalData(selectedLocation);
         if (search.get('category')) {
@@ -144,9 +147,9 @@ export default function Page() {
                         />
                         <div className="card-explore-content">
                             <div className="flex flex-col items-start justify-start w-1/2">
-                                <p className="title-onde-l">Os Melhores lugares em</p>
+                                <p className="title-onde-l">{t('Os Melhores lugares em')}</p>
                                 <p className="title-onde-home">{selectedLocation}</p>
-                                <p className="text-onde-s">Você está em {selectedLocation} e não sabe o que fazer? Aqui você encontra os melhores Locais para visitar.</p>
+                                <p className="text-onde-s">{t('Você está em')} {selectedLocation} {t('e não sabe o que fazer? Aqui você encontra os melhores Locais para visitar')}</p>
                                 <div
                                     className="explore-button mt-5"
                                 >
@@ -194,7 +197,7 @@ export default function Page() {
                                         onClick={() => setSelectedCategory('Todos')}
                                     >
                                         <MdSelectAll size={20} />
-                                        <p className="text-onde-xs">Todos</p>
+                                        <p className="text-onde-xs">{t('Todos')}</p>
                                     </div>
                                     {
                                         localCategories.map((category, index) => (
@@ -204,14 +207,14 @@ export default function Page() {
                                                 onClick={() => setSelectedCategory(category.name)}
                                             >
                                                 <MdArrowOutward size={20} />
-                                                <p className="text-onde-xs">{category.name}</p>
+                                                <p className="text-onde-xs">{i18n.language === 'pt' ? category.name : category.name_en}</p>
                                             </div>
                                         ))
                                     }
                                 </div>
                             </div>
                             <div className="w-full flex-col gap-4 my-6">
-                                <p className="title-onde-m">Lugares em {selectedLocation}</p>
+                                <p className="title-onde-m">{t('Lugares em')} {selectedLocation}</p>
                                 {filteredLocals.length > 0 ?
                                     <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
                                         {

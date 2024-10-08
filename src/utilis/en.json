@@ -1,5 +1,9 @@
 {
     "translation": {
+
+        "Home": "Home",
+        "Sobre nós": "About us",
+
         "Email": "Email",
         "Senha": "Password",
         "Entrar": "Login",
@@ -200,6 +204,29 @@
         "Organizadores":"Organizers",
         "Os melhores destinos em Moçambique": "The best destinations in Mozambique",
         "Lugares em destaque": "Featured Places",
-        "Explore as nossas categorias de lugares": "Explore our categories of places"
+        "Explore as nossas categorias de lugares": "Explore our categories of places",
+
+        "Os Melhores eventos em": "The Best Events in",
+        "Você está em": "You are in",
+        "e não sabe o que fazer? Aqui você encontra os melhores eventos para participar": "and don't know what to do? Here you will find the best events to participate",
+        "Eventos em": "Events in",
+
+        "Descrição": "Description",
+        "Contacto": "Contact",
+
+        "Nenhum evento encontrado": "No event found",
+        "Resultados":"Results",
+        "Resultados para": "Results for",
+        "em":"in",
+        "selecione o intervalo de datas":"select the date range",
+        "Ver menos":"View less",
+        "Escolher data":"Choose date",
+
+        "Lugares":"Places",
+        "Os Melhores lugares em":"The Best places in",
+        "e não sabe o que fazer? Aqui você encontra os melhores Locais para visitar":"and don't know what to do? Here you will find the best places to visit",
+        "Lugares em":"Places in",
+        "Nenhum lugar encontrado":"No place found"        
+
     }
 }

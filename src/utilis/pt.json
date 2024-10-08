@@ -1,5 +1,8 @@
 {
     "translation":{
+        "Home": "Home",
+        "Sobre nós": "Sobre nós",
+
         "Email":"Email",
         "Senha":"Senha",
         "Entrar":"Entrar",
@@ -204,9 +207,18 @@
         "Organizadores": "Organizadores",
         "Os melhores destinos em Moçambique": "Os melhores destinos em Moçambique",
         "Lugares em destaque": "Lugares em destaque",
-        "Explore as nossas categorias de lugares": "Explore as nossas categorias de lugares"
+        "Explore as nossas categorias de lugares": "Explore as nossas categorias de lugares",
         
+        "Os Melhores eventos em": "Os Melhores eventos em",
+        "Você está em": "Você está em",
+        "e não sabe o que fazer? Aqui você encontra os melhores eventos para participar": "e não sabe o que fazer? Aqui você encontra os melhores eventos para participar",
+        "Eventos em": "Eventos em",
 
+        "Descrição": "Descrição",
+        "Contacto": "Contacto",
+
+        "Nenhum evento encontrado": "Nenhum evento encontrado",
+        "Resultados":"Resultados"
     }
 
 }
