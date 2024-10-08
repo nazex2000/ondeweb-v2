@@ -34,7 +34,8 @@ import Niassa from '../assets/images/niassa.jpg';
 import { DestinyCard, LocalCardHr, LocalCategory } from "@/components/cards/localcards";
 import { getBestLocals, getLocalCategories } from "@/components/getters/local";
 import { getAllEvents, getOrganizers, getPopularEvents, getTopEvents } from "@/components/getters/events";
-
+import { useTranslation } from "react-i18next";
+import '../utilis/i18n';
 //Empty Images
 import EmptyImage from '../assets/images/empty.png';
 
@@ -59,6 +60,8 @@ const Empty = () => {
 
 export default function Home() {
   const [selectedMenu, setSelectedMenu] = useState("all");
+  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState(i18n.language);
 
   useEffect(() => {
     getEventsData(selectedLocal);
@@ -145,11 +148,11 @@ export default function Home() {
         />
         <div className="banner-home-container">
           <div className="banner-home-content">
-            <p className="title-onde-home">Pesquisa e Descobre</p>
-            <p className="title-onde-home-hl">Moçambique</p>
+            <p className="title-onde-home">{t('Pesquisa e Descobre')}</p>
+            <p className="title-onde-home-hl">{t('Moçambique')}</p>
             <div className="mt-5">
               <ButtonOnde
-                title={"Começa a explorar"}
+                title={t("Começa a explorar")}
                 onClick={() => window.location.href = "/eventos"}
               />
             </div>
@@ -237,7 +240,7 @@ export default function Home() {
         <hr className="w-full mt-2" />
         <div className="onde-content" style={{ padding: "0.5rem 1.6rem" }}>
           <div className="flex gap-2 items-center">
-            <p className="text-onde-m">Explorando eventos em </p>
+            <p className="text-onde-m">{t('Explorando eventos em')}</p>
             <div className="onde-drop">
               <MdArrowDropDown size={24} color="#7034D4" />
               <p className="text-onde-m dest">{selectedLocal ? selectedLocal : "Maputo"}</p>
@@ -268,25 +271,25 @@ export default function Home() {
               className={`text-onde-xs ${selectedMenu === "all" ? "selected" : ""}`}
               onClick={() => handleMenu("all")}
             >
-              Todos
+              {t('Todos')}
             </p>
             <p
               className={`text-onde-xs ${selectedMenu === "today" ? "selected" : ""}`}
               onClick={() => handleMenu("today")}
             >
-              Hoje
+              {t('Hoje')}
             </p>
             <p
               className={`text-onde-xs ${selectedMenu === "week" ? "selected" : ""}`}
               onClick={() => handleMenu("week")}
             >
-              Esta semana
+              {t('Esta semana')}
             </p>
             <p
               className={`text-onde-xs ${selectedMenu === "month" ? "selected" : ""}`}
               onClick={() => handleMenu("month")}
             >
-              Este mês
+              {t('Este mês')}
             </p>
           </div>
           {loadingEvents && <>
@@ -302,7 +305,7 @@ export default function Home() {
           </>}
           {!loadingEvents && selectedMenu === "all" && <>
             <div className="w-full flex-col gap-4 mt-6">
-              <p className="title-onde-m">Eventos em destaque</p>
+              <p className="title-onde-m">{t('Eventos em destaque')}</p>
               {topEvents.length > 0 ? <>
                 <div className="flex mt-2 grid grid-cols-4 gap-4">
                   {
@@ -317,7 +320,7 @@ export default function Home() {
               }
             </div>
             <div className="w-full flex-col gap-4 mt-5">
-              <p className="title-onde-m">Eventos populares</p>
+              <p className="title-onde-m">{t('Eventos populares')}</p>
               {popularEvents.length > 0 ? <>
                 <div className="flex mt-2 grid grid-cols-4 gap-4">
                   {
@@ -333,7 +336,7 @@ export default function Home() {
           </>}
           {!loadingEvents && selectedMenu !== "all" && <>
             <div className="w-full flex-col gap-4 mt-6">
-              <p className="title-onde-m">Eventos encontrados</p>
+              <p className="title-onde-m">{t('Eventos encontrados')}</p>
               {filterDateEvents.length > 0 && <>
                 <div className="flex mt-2 grid grid-cols-4 gap-4">
                   {
@@ -353,7 +356,7 @@ export default function Home() {
             <div className="w-full flex-col gap-4 mb-5">
               <p className="title-onde-m flex items-center gap-3">
                 <MdPersonOutline size={34} color="#7034D4" />
-                Organizadores
+                {t('Organizadores')}
               </p>
               <div className="onde-scroll-items bg-gray-100 gap-4">
                 {
@@ -369,7 +372,7 @@ export default function Home() {
       <div className="onde-container bg-gray-100">
         <div className="onde-content">
           <div className="w-full flex-col gap-4 mt-3">
-            <p className="title-onde-m">Os melhores destinos em Moçambique</p>
+            <p className="title-onde-m">{t('Os melhores destinos em Moçambique')}</p>
             <div className="onde-scroll-items bg-gray-100 gap-4 mt-4 mb-4">
               <DestinyCard
                 destiny={
@@ -470,7 +473,7 @@ export default function Home() {
           </>}
           {!loadingLocals &&
             <div className="w-full flex-col gap-4 mt-6">
-              <p className="title-onde-m">Lugares em destaque</p>
+              <p className="title-onde-m">{t('Lugares em destaque')}</p>
               {bestLocals.length > 0 ?
                 <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
                   {
@@ -490,7 +493,7 @@ export default function Home() {
         <div className="onde-container bg-gray-100">
           <div className="onde-content">
             <div className="w-full flex-col gap-4 mt-3">
-              <p className="title-onde-m">Explore as nossas categorias de lugares</p>
+              <p className="title-onde-m">{t('Explore as nossas categorias de lugares')}</p>
               <div className="flex flex-wrap gap-4 mt-4 mb-5">
                 {
                   localCategories.map((category, index) => (

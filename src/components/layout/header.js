@@ -8,6 +8,8 @@ import { FaArrowRight, FaCalendar, FaInstagram, FaSearch, FaTwitter } from "reac
 import "../css/header.css";
 import "../css/text.css";
 import "../css/home.css";
+import '../../utilis/i18n'
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
     const params = useSearchParams();
@@ -15,6 +17,9 @@ const Header = () => {
     const [selectedLocal, setSelectedLocal] = useState(params.get('location') || 'Maputo');
     const [menuOpen, setMenuOpen] = useState(false);
     const [searchChanged, setSearchChanged] = useState();
+
+    const { t, i18n } = useTranslation();
+    const [lang, setLang] = useState(i18n.language);
 
     const handleMenu = (path) => {
         window.location.href = path;
