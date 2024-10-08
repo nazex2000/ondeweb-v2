@@ -10,24 +10,11 @@ import '../../components/css/explore.css';
 import '../../components/css/layout.css';
 import '../../components/css/about.css';
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
+import '../../utilis/i18n';
 
-function Bread() {
-    return (
-        <Breadcrumbs>
-            <BreadcrumbItem
-                href="/"
-            >
-                <p className="text-onde-xs">Home</p>
-            </BreadcrumbItem>
-            <BreadcrumbItem
-                href="/sobre"
-            >
-                <p className="text-onde-xs">Sobre nós</p>
-            </BreadcrumbItem>
-        </Breadcrumbs>
-    );
-}
 export default function Page() {
+    const { t, i18n } = useTranslation();
     return (
         <>
             <div className="onde-container pb-4">
@@ -46,7 +33,7 @@ export default function Page() {
                             height={70}
                         />
                         <p className="title-onde-lg text-white w-full lg:w-1/2 text-center">
-                            Descobrindo Moçambique através de experiências inesquecíveis e lugares incríveis
+                            {t("Descobrindo Moçambique através de experiências inesquecíveis e lugares incríveis")}
                         </p>
                     </div>
 
@@ -59,13 +46,13 @@ export default function Page() {
                         height={'auto'}
                     />
                     <div className="flex-col flex gap-2 px-8">
-                        <p className="title-onde-l text-[#5f2fbc]">Sobre a ONDE</p>
+                        <p className="title-onde-l text-[#5f2fbc]">{t("Sobre a ONDE")}</p>
                         <p className="text-onde-s">
-                            A ONDE é uma plataforma digital que conecta pessoas a experiências inesquecíveis e lugares incríveis em Moçambique. Através da nossa plataforma, os viajantes podem descobrir e reservar experiências únicas, desde eventos culturais e festivais a passeios turísticos e atividades ao ar livre. A nossa missão é ajudar os viajantes a explorar o melhor que Moçambique tem para oferecer, ao mesmo tempo que apoiamos as comunidades locais e promovemos o turismo sustentável no país.
+                            {t("A ONDE é uma plataforma digital que conecta pessoas a experiências inesquecíveis e lugares incríveis em Moçambique. Através da nossa plataforma, os viajantes podem descobrir e reservar experiências únicas, desde eventos culturais e festivais a passeios turísticos e atividades ao ar livre. A nossa missão é ajudar os viajantes a explorar o melhor que Moçambique tem para oferecer, ao mesmo tempo que apoiamos as comunidades locais e promovemos o turismo sustentável no país")}.
                         </p>
-                        <p className="title-onde-l text-[#5f2fbc]">Conheça o nosso aplicativo móvel</p>
+                        <p className="title-onde-l text-[#5f2fbc]">{t("Conheça o nosso aplicativo móvel")}</p>
                         <p className="text-onde-s">
-                            Faça o download do nosso aplicativo móvel para descobrir as melhores experiências em Moçambique, onde quer que esteja. Com o nosso aplicativo, pode explorar eventos, locais e atividades em todo o país, reservar bilhetes e receber atualizações em tempo real sobre eventos e ofertas especiais. Não perca a oportunidade de descobrir o melhor de Moçambique com a ONDE!
+                            {t("Faça o download do nosso aplicativo móvel para descobrir as melhores experiências em Moçambique, onde quer que esteja. Com o nosso aplicativo, pode explorar eventos, locais e atividades em todo o país, reservar bilhetes e receber atualizações em tempo real sobre eventos e ofertas especiais. Não perca a oportunidade de descobrir o melhor de Moçambique com a ONDE!")}
                         </p>
                         <div className="flex gap-4">
                             <Image

@@ -62,16 +62,16 @@ const Header = () => {
                             <a href="/">Home</a>
                         </li>
                         <li className="dropdown">
-                            <a href="/eventos">Eventos</a>
+                            <a href="/eventos">{t("Eventos")}</a>
                         </li>
                         <li className="dropdown">
-                            <a href="/locais">Locais</a>
+                            <a href="/locais">{t("Locais")}</a>
                         </li>
                         <li>
-                            <a href="/sobre">Sobre nós</a>
+                            <a href="/sobre">{t("Sobre nós")}</a>
                         </li>
                         <li>
-                            <a href="/contactos">Contactos</a>
+                            <a href="/contactos">{t("Contactos")}</a>
                         </li>
                     </ul>
                 </nav>
@@ -86,6 +86,15 @@ const Header = () => {
                         <FaTwitter size={15} color='#7034D4' />
                     </div>
                 </div>
+                <div className="justify-center items-center hidden md:flex ml-3 gap-2">
+                    <div className="bg-white rounded-full flex items-center justify-center p-1 cursor-pointer">
+                        <p className="nilia-text-s" onClick={() => i18n.changeLanguage('pt')}>PT</p>
+                    </div>
+                    <hr className="h-4 w-0.5 bg-gray-300" />
+                    <div className="bg-white rounded-full flex items-center justify-center p-1 cursor-pointer">
+                        <p className="nilia-text-s" onClick={() => i18n.changeLanguage('en')}>EN</p>
+                    </div>
+                </div>
                 <div className="menu-icon md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
                     {menuOpen ? <MdClose className='cursor-pointer' color="white" size={30} /> : <MdMenu className='cursor-pointer' color="white" size={30} />}
                 </div>
@@ -97,19 +106,19 @@ const Header = () => {
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#7034D4' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/eventos')}>Eventos</p>
+                            <p className="nilia-text-m" onClick={() => handleMenu('/eventos')}>{t("Eventos")}</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#7034D4' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/locais')}>Locais</p>
+                            <p className="nilia-text-m" onClick={() => handleMenu('/locais')}>{t("Locais")}</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#7034D4' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/sobre')}>Sobre nós</p>
+                            <p className="nilia-text-m" onClick={() => handleMenu('/sobre')}>{t("Sobre nós")}</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#7034D4' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/contactos')}>Contactos</p>
+                            <p className="nilia-text-m" onClick={() => handleMenu('/contactos')}><p>{t("Contactos")}</p></p>
                         </p>
                     </div>
                 }
@@ -141,7 +150,7 @@ const Header = () => {
                         <input type="text" placeholder="Pesquisar" className="search-input" value={search} onChange={(e) => setSearch(e.target.value)} />
                     </div>
                     <div className="search-button" onClick={goSearch}>
-                        Pesquisar
+                        {t("Pesquisar")}
                     </div>
                 </div>
             }

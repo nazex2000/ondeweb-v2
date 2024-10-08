@@ -5,7 +5,12 @@ import Playstore from '../../assets/images/playstore.png';
 import Appstore from '../../assets/images/applestore.png';
 import { MdFacebook } from 'react-icons/md';
 import { FaInstagram, FaTwitter } from 'react-icons/fa';
+import '../../utilis/i18n'
+import { useTranslation } from 'react-i18next';
+
 function Footer() {
+    const { t, i18n } = useTranslation();
+    
     return (
         <div className="footer">
             <div className="footer-container">
@@ -19,7 +24,7 @@ function Footer() {
                         />
                         <div className='mt-3 flex flex-col items-start justify-start'>
                             <p className='text-onde-s'>
-                                Conecte-se conosco
+                                {t("Conecte-se conosco")}
                             </p>
                             <div className='flex gap-3 mt-2'>
                                 <div className="bg-white rounded-full flex items-center justify-center p-1 cursor-pointer">
@@ -35,7 +40,7 @@ function Footer() {
                         </div>
                         <div className='mt-5 flex flex-col items-start justify-start'>
                             <p className='text-onde-s'>
-                                Faça já o download do aplicativo
+                                {t("Faça já o download do aplicativo")}
                             </p>
                             <div className='flex gap-3 mt-2'>
                                 <Image
@@ -53,47 +58,32 @@ function Footer() {
                     </div>
                     <div className="flex flex-col items-start justify-start gap-2">
                         <p className='title-onde-s'>
-                            Explore
+                            {t("Explorar")}
                         </p>
                         <div className='flex flex-col items-start justify-start gap-4'>
-                            <p className='text-onde-s link'>
-                                Eventos
+                            <p className='text-onde-s link' onClick={() => window.location.href = "/eventos"}>
+                                {t("Eventos")}
                             </p>
-                            <p className='text-onde-s link'>
-                                Locais
-                            </p>
-                            <p className='text-onde-s link'>
-                                Organizadores
+                            <p className='text-onde-s link' onClick={() => window.location.href = "/locais"}>
+                                {t("Locais")}
                             </p>
                         </div>
                     </div>
                     <div className="flex flex-col items-start justify-start gap-2">
                         <p className='title-onde-s'>
-                            Sobre nós
+                            {t("Sobre nós")}
                         </p>
                         <div className='flex flex-col items-start justify-start gap-4'>
-                            <p className='text-onde-s link'>
-                                Quem somos
-                            </p>
-                            <p className='text-onde-s link'>
-                                Missão
-                            </p>
-                            <p className='text-onde-s link'>
-                                Serviços
+                            <p className='text-onde-s link' onClick={() => window.location.href = "/sobre"}>
+                                {t("Onde")}
                             </p>
                         </div>
                     </div>
                     <div className="flex flex-col items-start justify-start gap-2">
                         <p className='title-onde-s'>
-                            Patrocinadores
+                            {t("Patrocinadores")}
                         </p>
                         <div className='flex flex-col items-start justify-start gap-4'>
-                            <p className='text-onde-s link'>
-                                Yango
-                            </p>
-                            <p className='text-onde-s link'>
-                                Standard Bank
-                            </p>
                             <p className='text-onde-s link'>
                                 ITCOM
                             </p>
@@ -102,7 +92,7 @@ function Footer() {
                 </div>
                 <hr className='w-full mt-4' />
                 <p className='text-onde-s mt-2 ml-auto'>
-                    © 2024 ITCOM. Todos os direitos reservados.
+                    © 2024 ITCOM. {t("Todos os direitos reservados")}.
                 </p>
             </div>
         </div>

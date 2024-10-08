@@ -11,10 +11,13 @@ import '../../../components/css/explore.css';
 import { fetchLocalById } from "@/components/getters/local";
 import { MdContactPhone, MdLocationPin } from "react-icons/md";
 import { GoogleMap, Marker, LoadScript, useJsApiLoader } from "@react-google-maps/api";
+import { useTranslation } from "react-i18next";
+import '../../../utilis/i18n';
 
 const libraries = ['geometry', 'drawing', 'places'];
 
 const Empty = () => {
+    const { t, i18n } = useTranslation();
     return (
         <div className="flex-col flex justify-center items-center w-full">
             <Image
@@ -23,12 +26,13 @@ const Empty = () => {
                 width={200}
                 height={200}
             />
-            <p className="text-onde-s">Nenhum lugar encontrado</p>
+            <p className="text-onde-s">{t("Nenhum lugar encontrado")}</p>
         </div>
     );
 }
 
 function Bread({ last }) {
+    const { t, i18n } = useTranslation();
     return (
         <Breadcrumbs>
             <BreadcrumbItem
@@ -39,7 +43,7 @@ function Bread({ last }) {
             <BreadcrumbItem
                 href="/locais"
             >
-                <p className="text-onde-xs">Lugares</p>
+                <p className="text-onde-xs">{t("Lugares")}</p>
             </BreadcrumbItem>
             <BreadcrumbItem
             >
@@ -50,10 +54,11 @@ function Bread({ last }) {
 }
 
 export default function Page() {
+    const { t, i18n } = useTranslation();
     const { reference } = useParams();
     const [loading, setLoading] = useState(true);
     const [itemData, setItemData] = useState(null);
-    const [state, setState] = useState('Buscando dados...');
+    const [state, setState] = useState(t('Buscando dados...'));
     const [location, setLocation] = useState({ lat: -25.953724, lng: 32.585789 })
 
     useEffect(() => {
@@ -68,7 +73,7 @@ export default function Page() {
             setState(data.name);
             setLocation({ lat: data.lat, lng: data.lng });
         } else {
-            setState('Nenhum lugar encontrado');
+            setState(t('Nenhum lugar encontrado'));
         }
         setLoading(false);
     }
@@ -135,15 +140,15 @@ export default function Page() {
                             <div className="flex flex-wrap gap-2 mt-4">
                                 {itemData.category.map((tag, index) => (
                                     <div className="tag-category" key={index} onClick={() => window.location.href = `/locais?category=${tag.name}`} >
-                                        <p className="text-onde-xs">{tag.name}</p>
+                                        <p className="text-onde-xs">{i18n.language === 'pt' ? tag.name : tag.name_en}</p>
                                     </div>
                                 ))}
                             </div>
 
-                            <p className="title-onde-sm mt-4">Descrição</p>
-                            <p className="text-onde-s mt-2">{itemData.description}</p>
+                            <p className="title-onde-sm mt-4">{t("Descrição")}</p>
+                            <p className="text-onde-s mt-2">{i18n.language === 'pt' ? itemData.description : itemData.description_en}</p>
 
-                            <p className="title-onde-sm mt-4">Localização</p>
+                            <p className="title-onde-sm mt-4">{t("Localização")}</p>
                             <p className="text-onde-s flex items-center gap-3 mt-2">
                                 <MdLocationPin size={20} color='#7034D4' />
                                 {itemData.location}
@@ -160,7 +165,7 @@ export default function Page() {
                                 </GoogleMap>
                             }
                             
-                            <p className="title-onde-sm mt-4">Contacto</p>
+                            <p className="title-onde-sm mt-4">{t("Contacto")}</p>
                             <p className="text-onde-s flex items-center gap-3 mt-2">
                                 <MdContactPhone size={20} color='#7034D4' />
                                 {itemData.phone || 'Não disponível'}
