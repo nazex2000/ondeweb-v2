@@ -13,6 +13,7 @@ import { MdContactPhone, MdLocationPin } from "react-icons/md";
 import { GoogleMap, Marker, LoadScript, useJsApiLoader } from "@react-google-maps/api";
 import { useTranslation } from "react-i18next";
 import '../../../utilis/i18n';
+import Head from "next/head";
 
 const libraries = ['geometry', 'drawing', 'places'];
 
@@ -52,6 +53,7 @@ function Bread({ last }) {
         </Breadcrumbs>
     );
 }
+
 
 export default function Page() {
     const { t, i18n } = useTranslation();
@@ -94,6 +96,10 @@ export default function Page() {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
+            <Head>
+                <title>{t("Onde - Local")}</title>
+                <meta name="description" content="Pesquisa e descobre Moçambique" />
+            </Head>
             <div className="onde-container">
                 <div className="onde-content flex-col pb-4">
                     <Bread last={itemData ? itemData.name : state} />

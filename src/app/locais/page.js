@@ -27,11 +27,14 @@ import { LocalCardHr } from "@/components/cards/localcards";
 
 //Empty Images
 import EmptyImage from '../../assets/images/empty.png';
+import Head from "next/head";
+
 
 //skeleton
 import Skeleton from '@mui/material/Skeleton';
 import { useTranslation } from "react-i18next";
 import '../../utilis/i18n';
+
 
 const Empty = () => {
     const { t, i18n } = useTranslation();
@@ -136,6 +139,10 @@ export default function Page() {
     return (
         <>
             <Suspense fallback={<div>Loading...</div>}>
+                <Head>
+                    <title>{t('Onde - Lugares')}</title>
+                    <meta name="description" content="Pesquisa e descobre Moçambique" />
+                </Head>
                 <div className="onde-container">
                     <div className="onde-content flex-col pb-4">
                         <Bread />

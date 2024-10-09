@@ -8,12 +8,17 @@ import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import { MdLocationPin, MdMail, MdPhone } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 import '../../utilis/i18n';
+import Head from "next/head";
 
 
 export default function Page() {
     const { t, i18n } = useTranslation();
     return (
         <Suspense fallback={<div>Loading...</div>}>
+            <Head>
+                <title>{t("Onde - Contactos")}</title>
+                <meta name="description" content="Pesquisa e descobre Moçambique" />
+            </Head>
             <div className="onde-container bg-gray-100">
                 <div className="onde-content flex-col pb-4 bg-white my-8 rounded-lg shadow-lg">
                     <div className="flex flex-col md:flex-row justify-between items-center mt-8 mb-4 gap-4">

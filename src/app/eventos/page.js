@@ -24,6 +24,8 @@ import Skeleton from '@mui/material/Skeleton';
 //Translation
 import { useTranslation } from "react-i18next";
 import '../../utilis/i18n';
+import Head from "next/head";
+
 
 const Empty = () => {
     const { t, i18n } = useTranslation();
@@ -57,6 +59,7 @@ function Bread() {
         </Breadcrumbs>
     );
 }
+
 
 export default function Page() {
     const search = useSearchParams();
@@ -117,6 +120,10 @@ export default function Page() {
     return (
         <>
             <Suspense fallback={<div>Loading...</div>}>
+                <Head>
+                    <title>{t("Onde - Eventos")}</title>
+                    <meta name="description" content="Pesquisa e descobre Moçambique" />
+                </Head>
                 <div className="onde-container">
                     <div className="onde-content flex-col pb-4">
                         <Bread />

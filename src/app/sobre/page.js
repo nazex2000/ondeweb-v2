@@ -13,12 +13,18 @@ import '../../components/css/about.css';
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import '../../utilis/i18n';
+import Head from "next/head";
+
 
 export default function Page() {
     const { t, i18n } = useTranslation();
     return (
         <>
             <Suspense fallback={<div>Loading...</div>}>
+                <Head>
+                    <title>{t("Onde - Sobre")}</title>
+                    <meta name="description" content="Pesquisa e descobre Moçambique" />
+                </Head>
                 <div className="onde-container pb-4">
                     <div className="cover-about mb-4 px-[1rem]">
                         <Image

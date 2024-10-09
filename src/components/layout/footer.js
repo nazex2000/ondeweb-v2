@@ -15,8 +15,8 @@ function Footer() {
     return (
         <div className="footer">
             <div className="footer-container">
-                <div className='flex w-full gap-[7vw]'>
-                    <div className="flex flex-row md:flex-col items-start justify-start">
+                <div className='footer-content'>
+                    <div className="flex flex-col items-start justify-start">
                         <Image
                             src={Logo}
                             alt="Instituto Nilia"

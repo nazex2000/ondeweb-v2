@@ -158,85 +158,8 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="onde-container">
-        <div className="onde-content">
-          <div className="w-full flex grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 mt-3 gap-4">
-            <div className="onde-option">
-              <div className="onde-option-rounded">
-                <Image
-                  src={MicIcon}
-                  alt="Mic"
-                  className="onde-option-icon"
-                />
-              </div>
-              <p className="text-onde-s">Música</p>
-            </div>
-            <div className="onde-option">
-              <div className="onde-option-rounded">
-                <Image
-                  src={DiscoIcon}
-                  alt="Mic"
-                  className="onde-option-icon"
-                />
-              </div>
-              <p className="text-onde-s">Festas Noturnas</p>
-            </div>
-            <div className="onde-option">
-              <div className="onde-option-rounded">
-                <Image
-                  src={MaskIcon}
-                  alt="Mic"
-                  className="onde-option-icon"
-                />
-              </div>
-              <p className="text-onde-s">Arte</p>
-            </div>
-            <div className="onde-option">
-              <div className="onde-option-rounded">
-                <Image
-                  src={FashionIcon}
-                  alt="Mic"
-                  className="onde-option-icon"
-                />
-              </div>
-              <p className="text-onde-s">Moda</p>
-            </div>
-            <div className="onde-option">
-              <div className="onde-option-rounded">
-                <Image
-                  src={NetworkingIcon}
-                  alt="Mic"
-                  className="onde-option-icon"
-                />
-              </div>
-              <p className="text-onde-s">Networking</p>
-            </div>
-            <div className="onde-option">
-              <div className="onde-option-rounded">
-                <Image
-                  src={FoodIcon}
-                  alt="Mic"
-                  className="onde-option-icon"
-                />
-              </div>
-              <p className="text-onde-s">Comida</p>
-            </div>
-            <div className="onde-option">
-              <div className="onde-option-rounded">
-                <Image
-                  src={SportsIcon}
-                  alt="Mic"
-                  className="onde-option-icon"
-                />
-              </div>
-              <p className="text-onde-s">Desporto</p>
-            </div>
-
-          </div>
-        </div>
-      </div>
       <section className="onde-container">
-        <hr className="w-full mt-2" />
+        <hr className="w-full" />
         <div className="onde-content" style={{ padding: "0.5rem 1.6rem" }}>
           <div className="flex gap-2 items-center">
             <p className="text-onde-m">{t('Explorando eventos em')}</p>

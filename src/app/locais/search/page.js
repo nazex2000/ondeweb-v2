@@ -14,6 +14,7 @@ import { LocalCardHr, LocalCardVr } from "@/components/cards/localcards";
 import Fuse from 'fuse.js';
 import { useTranslation } from "react-i18next";
 import '../../../utilis/i18n';
+import Head from "next/head";
 
 const Empty = () => {
     const { t, i18n } = useTranslation();
@@ -51,6 +52,7 @@ function Bread() {
         </Breadcrumbs>
     );
 }
+
 
 export default function Page() {
     const { t, i18n } = useTranslation();
@@ -132,7 +134,7 @@ export default function Page() {
 
     const filterByFuse = (locals) => {
         const fuse = new Fuse(locals, {
-            keys: ['name', 'hashtags', 'description'],
+            keys: ['name', 'hashtags', 'description', 'category.name'],
             includeScore: true,
         });
         return fuse.search(searchFilter).map(result => result.item);
@@ -142,6 +144,10 @@ export default function Page() {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
+            <Head>
+                <title>{t("Onde - Pesquisar Lugares")}</title>
+                <meta name="description" content="Pesquisa e descobre Moçambique" />
+            </Head>
             <div className="onde-container">
                 <div className="onde-content flex-col pb-4">
                     <Bread />

@@ -18,6 +18,7 @@ import dayJS from 'dayjs';
 import { DateRangePicker } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import '../../../utilis/i18n';
+import Head from "next/head";
 
 
 const Empty = () => {
@@ -56,6 +57,7 @@ function Bread() {
         </Breadcrumbs>
     );
 }
+
 
 export default function Page() {
     const { t, i18n } = useTranslation();
@@ -139,7 +141,7 @@ export default function Page() {
 
     const filterByFuse = (locals) => {
         const fuse = new Fuse(locals, {
-            keys: ['name', 'hashtags', 'description', 'description_en'],
+            keys: ['name', 'hashtags', 'description', 'description_en', 'category.name'],
             includeScore: true,
         });
         return fuse.search(searchFilter).map(result => result.item);
@@ -212,6 +214,10 @@ export default function Page() {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
+            <Head>
+                <title>{t("Onde - Pesquisar Eventos")}</title>
+                <meta name="description" content="Pesquisa e descobre Moçambique" />
+            </Head>
             <div className="onde-container">
                 <div className="onde-content flex-col pb-4">
                     <Bread />
@@ -239,7 +245,7 @@ export default function Page() {
                                             ))}
                                         </div>
                                     </> : <>
-                                        <div className="w-full flex-col gap-4 mt-3">
+                                        <div className="w-full flex-col gap-4 mt-1">
                                             <p className="title-onde-s">{t("Data")}</p>
                                             <div className="w-full grid grid-cols-1 gap-2 mt-2">
                                                 <RadioGroup
@@ -356,6 +362,7 @@ export default function Page() {
                                     size="sm"
                                     value={dataRange}
                                     onChange={setDataRange}
+                                    className="flex md:hidden"
                                 />
                                 <div className="w-full md:w-3/4 flex-col gap-4">
                                     {loadingResults && <>

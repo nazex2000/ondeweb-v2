@@ -14,6 +14,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { getEventById } from "@/components/getters/events";
 import { useTranslation } from "react-i18next";
 import '../../../utilis/i18n';
+import Head from "next/head";
 
 const libraries = ['geometry', 'drawing', 'places'];
 
@@ -53,6 +54,7 @@ function Bread({ last }) {
         </Breadcrumbs>
     );
 }
+
 
 export default function Page() {
     const { reference } = useParams();
@@ -105,6 +107,10 @@ export default function Page() {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
+            <Head>
+                <title>{t("Onde - Evento")}</title>
+                <meta name="description" content="Pesquisa e descobre Moçambique" />
+            </Head>
             <div className="onde-container">
                 <div className="onde-content flex-col pb-4">
                     <Bread last={itemData ? itemData.name : state} />
