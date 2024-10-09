@@ -19,7 +19,7 @@ const Header = () => {
     const [searchChanged, setSearchChanged] = useState();
 
     const { t, i18n } = useTranslation();
-    const [lang, setLang] = useState(i18n.language);
+    const [language, setLanguage] = useState('pt');
 
     const handleMenu = (path) => {
         window.location.href = path;
@@ -86,13 +86,13 @@ const Header = () => {
                         <FaTwitter size={15} color='#7034D4' />
                     </div>
                 </div>
-                <div className="justify-center items-center hidden md:flex ml-3 gap-2">
-                    <div className="bg-white rounded-full flex items-center justify-center p-1 cursor-pointer">
-                        <p className="nilia-text-s" onClick={() => i18n.changeLanguage('pt')}>PT</p>
+                <div className="justify-center items-center hidden md:flex ml-3 gap-1">
+                    <div className="rounded-full flex items-center justify-center p-1 cursor-pointer hover:bg-text-gray text-white" onClick={() => i18n.changeLanguage('pt')}>
+                        <p className="text-onde-s">PT</p>
                     </div>
                     <hr className="h-4 w-0.5 bg-gray-300" />
-                    <div className="bg-white rounded-full flex items-center justify-center p-1 cursor-pointer">
-                        <p className="nilia-text-s" onClick={() => i18n.changeLanguage('en')}>EN</p>
+                    <div className="rounded-full flex items-center justify-center p-1 cursor-pointer hover:bg-text-gray text-white" onClick={() => i18n.changeLanguage('en')}>
+                        <p className="text-onde-s">EN</p>
                     </div>
                 </div>
                 <div className="menu-icon md:hidden" onClick={() => setMenuOpen(!menuOpen)}>

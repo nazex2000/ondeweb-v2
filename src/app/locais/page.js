@@ -146,8 +146,8 @@ export default function Page() {
                             fill
                         />
                         <div className="card-explore-content">
-                            <div className="flex flex-col items-start justify-start w-1/2">
-                                <p className="title-onde-l">{t('Os Melhores lugares em')}</p>
+                            <div className="flex flex-col items-start justify-start w-full md:w-1/2">
+                                <p className="title-onde-sm md:title-onde-l">{t('Os Melhores lugares em')}</p>
                                 <p className="title-onde-home">{selectedLocation}</p>
                                 <p className="text-onde-s">{t('Você está em')} {selectedLocation} {t('e não sabe o que fazer? Aqui você encontra os melhores Locais para visitar')}</p>
                                 <div
@@ -178,7 +178,7 @@ export default function Page() {
                     </div>
                     {loadingLocals ? <>
                         <Skeleton variant="text" width="100%" height={70} />
-                        <div className="w-full grid grid-cols-4 gap-4 mt-6">
+                        <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
                             {Array.from({ length: 8 }).map((_, index) => (
                                 <div className="flex flex-col gap-1" key={index}>
                                     <Skeleton variant="rectangular" width="100%" height={200} />
@@ -216,7 +216,7 @@ export default function Page() {
                             <div className="w-full flex-col gap-4 my-6">
                                 <p className="title-onde-m">{t('Lugares em')} {selectedLocation}</p>
                                 {filteredLocals.length > 0 ?
-                                    <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
+                                    <div className="flex mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-5">
                                         {
                                             filteredLocals.map((local, index) => (
                                                 <LocalCardHr local={local} key={index} />

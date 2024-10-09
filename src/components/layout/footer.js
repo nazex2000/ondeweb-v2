@@ -1,3 +1,4 @@
+"use client";
 import Image from 'next/image';
 import '../css/footer.css';
 import Logo from '../../assets/icons/icon.png';

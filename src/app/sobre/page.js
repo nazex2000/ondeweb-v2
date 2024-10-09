@@ -32,7 +32,7 @@ export default function Page() {
                             width={70}
                             height={70}
                         />
-                        <p className="title-onde-lg text-white w-full lg:w-1/2 text-center">
+                        <p className="px-8 title-onde-l md:title-onde-lg text-white w-full lg:w-1/2 text-center">
                             {t("Descobrindo Moçambique através de experiências inesquecíveis e lugares incríveis")}
                         </p>
                     </div>
@@ -44,8 +44,9 @@ export default function Page() {
                         alt="Phone"
                         width={250}
                         height={'auto'}
+                        className="hidden md:block"
                     />
-                    <div className="flex-col flex gap-2 px-8">
+                    <div className="flex-col flex gap-2 px-0 md:px-8">
                         <p className="title-onde-l text-[#5f2fbc]">{t("Sobre a ONDE")}</p>
                         <p className="text-onde-s">
                             {t("A ONDE é uma plataforma digital que conecta pessoas a experiências inesquecíveis e lugares incríveis em Moçambique. Através da nossa plataforma, os viajantes podem descobrir e reservar experiências únicas, desde eventos culturais e festivais a passeios turísticos e atividades ao ar livre. A nossa missão é ajudar os viajantes a explorar o melhor que Moçambique tem para oferecer, ao mesmo tempo que apoiamos as comunidades locais e promovemos o turismo sustentável no país")}.

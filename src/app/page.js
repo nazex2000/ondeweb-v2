@@ -61,7 +61,6 @@ const Empty = () => {
 export default function Home() {
   const [selectedMenu, setSelectedMenu] = useState("all");
   const { t, i18n } = useTranslation();
-  const [lang, setLang] = useState(i18n.language);
 
   useEffect(() => {
     getEventsData(selectedLocal);
@@ -161,7 +160,7 @@ export default function Home() {
       </div>
       <div className="onde-container">
         <div className="onde-content">
-          <div className="w-full flex grid grid-cols-7 mt-3 gap-4">
+          <div className="w-full flex grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 mt-3 gap-4">
             <div className="onde-option">
               <div className="onde-option-rounded">
                 <Image
@@ -293,7 +292,7 @@ export default function Home() {
             </p>
           </div>
           {loadingEvents && <>
-            <div className="w-full grid grid-cols-4 gap-4 mt-6">
+            <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
               {Array.from({ length: 8 }).map((_, index) => (
                 <div className="flex flex-col gap-1" key={index}>
                   <Skeleton variant="rectangular" width="100%" height={200} />
@@ -307,7 +306,7 @@ export default function Home() {
             <div className="w-full flex-col gap-4 mt-6">
               <p className="title-onde-m">{t('Eventos em destaque')}</p>
               {topEvents.length > 0 ? <>
-                <div className="flex mt-2 grid grid-cols-4 gap-4">
+                <div className="flex mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {
                     topEvents.map((event, index) => (
                       <EventCardHr event={event} key={index} />
@@ -322,7 +321,7 @@ export default function Home() {
             <div className="w-full flex-col gap-4 mt-5">
               <p className="title-onde-m">{t('Eventos populares')}</p>
               {popularEvents.length > 0 ? <>
-                <div className="flex mt-2 grid grid-cols-4 gap-4">
+                <div className="flex mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4">
                   {
                     popularEvents.map((event, index) => (
                       <EventCardHr event={event} key={index} />
@@ -338,7 +337,7 @@ export default function Home() {
             <div className="w-full flex-col gap-4 mt-6">
               <p className="title-onde-m">{t('Eventos encontrados')}</p>
               {filterDateEvents.length > 0 && <>
-                <div className="flex mt-2 grid grid-cols-4 gap-4">
+                <div className="flex mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {
                     filterDateEvents.map((event, index) => (
                       <EventCardHr event={event} key={index} />
@@ -461,7 +460,7 @@ export default function Home() {
       <div className="onde-container">
         <div className="onde-content flex-col">
           {loadingLocals && <>
-            <div className="w-full grid grid-cols-4 gap-4 mt-6">
+            <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
               {Array.from({ length: 8 }).map((_, index) => (
                 <div className="flex flex-col gap-1" key={index}>
                   <Skeleton variant="rectangular" width="100%" height={200} />
@@ -475,7 +474,7 @@ export default function Home() {
             <div className="w-full flex-col gap-4 mt-6">
               <p className="title-onde-m">{t('Lugares em destaque')}</p>
               {bestLocals.length > 0 ?
-                <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
+                <div className="flex mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-5">
                   {
                     bestLocals.map((local, index) => (
                       <LocalCardHr local={local} key={index} />

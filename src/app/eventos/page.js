@@ -127,8 +127,8 @@ export default function Page() {
                             fill
                         />
                         <div className="card-explore-content">
-                            <div className="flex flex-col items-start justify-start w-1/2">
-                                <p className="title-onde-l">{t("Os Melhores eventos em")}</p>
+                            <div className="flex flex-col items-start justify-start w-full md:w-1/2">
+                                <p className="title-onde-sm md:title-onde-l">{t("Os Melhores eventos em")}</p>
                                 <p className="title-onde-home">{selectedLocation}</p>
                                 <p className="text-onde-s">{t("Você está em")} {selectedLocation} {t("e não sabe o que fazer? Aqui você encontra os melhores eventos para participar")}</p>
                                 <div
@@ -197,7 +197,7 @@ export default function Page() {
                             <div className="w-full flex-col gap-4 my-6">
                                 <p className="title-onde-m">{t("Eventos em")} {selectedLocation}</p>
                                 {filteredEvents.length > 0 ?
-                                    <div className="flex mt-2 grid grid-cols-4 gap-4 mb-5">
+                                    <div className="flex mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-5">
                                         {
                                             filteredEvents.map((ev, index) => (
                                                 <EventCardHr event={ev} key={index} />

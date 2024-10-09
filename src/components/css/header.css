@@ -200,3 +200,16 @@
 .menu-icon {
 margin-left: auto;
 }
+
+@media (max-width: 868px) {
+  .search-container {
+    margin-top: 1rem;
+    width: 92%;
+  }
+}
+
+@media (max-width: 588px) {
+  .location-search {
+    display: none;
+  }
+}

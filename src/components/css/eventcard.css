@@ -9,6 +9,7 @@
   transition: all 0.3s;
   padding: 0.6rem;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .event-card-vr {
@@ -22,6 +23,7 @@
   padding: 0.6rem;
   cursor: pointer;
   gap: 0.5rem;
+  overflow: hidden;
 }
 
 .event-card-vr:hover {

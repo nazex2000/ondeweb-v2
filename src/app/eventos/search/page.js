@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import EmptyImage from '../../../assets/images/empty.png';
 import Skeleton from '@mui/material/Skeleton';
 import { getBestLocals, getLocalCategories } from "@/components/getters/local";
-import { MdSelectAll } from "react-icons/md";
+import { MdArrowDropDown, MdCalendarMonth, MdListAlt, MdSelectAll } from "react-icons/md";
 import { RadioGroup, Radio } from "@nextui-org/radio";
 import '../../../components/css/text.css';
 import '../../../components/css/explore.css';
@@ -13,7 +13,7 @@ import Image from "next/image";
 import { LocalCardVr } from "@/components/cards/localcards";
 import Fuse from 'fuse.js';
 import { getAllEvents, getEventCategories } from "@/components/getters/events";
-import { EventCardVr } from "@/components/cards/eventcards";
+import { EventCardHr, EventCardVr } from "@/components/cards/eventcards";
 import dayJS from 'dayjs';
 import { DateRangePicker } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +21,7 @@ import '../../../utilis/i18n';
 
 
 const Empty = () => {
-    const { t, i18n } = useTranslation();    
+    const { t, i18n } = useTranslation();
     return (
         <div className="flex-col flex justify-center items-center w-full">
             <Image
@@ -226,8 +226,8 @@ export default function Page() {
                 {!loadingParams && <>
                     <div className="w-full flex-col gap-4 my-4">
                         <p className="title-onde-m">{t('Resultados para')} {searchFilter} {categoryFilter ? (<>[{categoryFilter}]</>) : null} {t('em')} {locationFilter}</p>
-                        <div className="w-full flex gap-10 mt-3">
-                            <div className="w-1/4 flex-col gap-4">
+                        <div className="w-full flex flex-col md:flex-row gap-4 mt-3">
+                            <div className="w-1/4 hidden md:flex flex-col gap-4">
                                 <p className="title-onde-sm">{t("Filtros")}</p>
                                 {loadingFilters ? <>
                                     <div className="w-full grid grid-cols-1 gap-4 mt-3">
@@ -306,7 +306,57 @@ export default function Page() {
                                     </div>
                                 </>}
                             </div>
-                            <div className="w-3/4 flex-col gap-4">
+                            <div className="w-full flex md:hidden gap-2">
+                                <div className="explore-filter px-4 py-2 bg-gray-100 rounded-full  flex items-center justify-between">
+                                    <MdArrowDropDown size={20} color='#7034D4' />
+                                    <p className="text-onde-xs">Categorias</p>
+
+                                    <div className="category-dropdown">
+                                        {
+                                            exploreCategories.map((cat, index) => (
+                                                <p
+                                                    className="text-onde-xs"
+                                                    key={index}
+                                                    onClick={() => {
+                                                        goSearch(cat.name);
+                                                    }}
+                                                >
+                                                    {i18n.language === 'pt' ? cat.name : cat.name_en}
+                                                </p>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                                <div className="explore-filter px-4 py-2 bg-gray-100 rounded-full  flex items-center justify-between">
+                                    <MdArrowDropDown size={20} color='#7034D4' />
+                                    <p className="text-onde-xs">Ordenar por</p>
+                                    <div className="category-dropdown p-3">
+                                        <div className="w-full grid grid-cols-1 gap-2 mt-2">
+                                            <RadioGroup
+                                                value={orderFilter}
+                                                onChange={(e) => setOrderFilter(e.target.value)}
+                                                size="sm"
+                                            >
+                                                {orderOptions.map((option, index) => (
+                                                    <Radio key={index} value={option.value}>
+                                                        <p className="text-onde-xs">{option.name}</p>
+                                                    </Radio>
+                                                ))}
+                                            </RadioGroup>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <DateRangePicker
+                                label={t("selecione o intervalo de datas")}
+                                visibleMonths={2}
+                                pageBehavior="single"
+                                size="sm"
+                                value={dataRange}
+                                onChange={setDataRange}
+                            />
+                            <div className="w-full md:w-3/4 flex-col gap-4">
                                 {loadingResults && <>
                                     <div className="w-full grid grid-cols-3 gap-4 mt-6">
                                         {Array.from({ length: 8 }).map((_, index) => (
@@ -322,10 +372,17 @@ export default function Page() {
                                     <>
                                         {filteredResults.length > 0 ?
                                             <>
-                                                <div className="flex mt-2 grid grid-cols-1 gap-4 mb-5">
+                                                <div className="hidden md:grid mt-2 grid-cols-1 gap-4 mb-5">
                                                     {
                                                         results.map((ev, index) => (
                                                             <EventCardVr event={ev} key={index} />
+                                                        ))
+                                                    }
+                                                </div>
+                                                <div className="flex md:hidden mt-2 grid grid-cols-2 gap-4 mb-5">
+                                                    {
+                                                        results.map((ev, index) => (
+                                                            <EventCardHr event={ev} key={index} />
                                                         ))
                                                     }
                                                 </div>

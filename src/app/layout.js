@@ -4,7 +4,7 @@ import Layout from "../components/layout/layout";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="pt">
       <body>
         <Layout>{children}</Layout>
       </body>

@@ -18,11 +18,6 @@ const nextConfig = {
     swcMinify: true,
     productionBrowserSourceMaps: true,
     optimizeFonts: true,
-    i18n: {
-        locales: ['en', 'pt'],
-        defaultLocale: 'pt',
-    },
-
 };
 
 export default nextConfig;

@@ -15,10 +15,10 @@ export default function Page() {
     return (
         <div className="onde-container bg-gray-100">
             <div className="onde-content flex-col pb-4 bg-white my-8 rounded-lg shadow-lg">
-                <div className="flex flex-col md:flex-row justify-between items-center mt-8 mb-4">
-                    <div className="w-full md:w-1/2 flex flex-col items-center md:items-start pr-8">
-                        <p className="title-onde-sm text-[#5f2fbc]">{t("Contactos")}</p>
-                        <p className="title-onde-l text-[#5f2fbc] pr-8" style={{ fontSize: '2.4rem', lineHeight: '45px', fontWeight: '700' }}>{t("Encontre a melhor solução para o seu negócio com a ONDE")}</p>
+                <div className="flex flex-col md:flex-row justify-between items-center mt-8 mb-4 gap-4">
+                    <div className="w-full md:w-1/2 flex flex-col items-start md:items-start pr-8">
+                        <p className="title-onde-sm text-[#5f2fbc]" style={{textAlign:"left"}}>{t("Contactos")}</p>
+                        <p className="title-onde-l md:text-onde-lg text-[#5f2fbc] pr-8" style={{fontWeight:700}}>{t("Encontre a melhor solução para o seu negócio com a ONDE")}</p>
                         <p className="text-onde-s mt-3">
                             {t("Aproveite o maior mercado de eventos do mundo e alcance mais consumidores que procuram eventos como o seu com nossas ferramentas de marketing de eventos líderes do setor. Pronto para dar vida ao seu próximo evento")}?
                         </p>
@@ -42,9 +42,9 @@ export default function Page() {
                             <p className="text-onde-s text-center">{t("Segunda a Sexta-feira")}: 08:00 - 17:00</p>
                         </div>
                     </div>
-                    <div className="w-full md:w-1/2 flex flex-col items-center md:items-start gap-4">
-                        <p className="title-onde-l text-[#5f2fbc] px-12">{t("Fale Conosco")}</p>
-                        <form className="flex flex-col gap-4 w-full px-12">
+                    <div className="w-full md:w-1/2 flex flex-col items-start md:items-center md:items-start gap-4">
+                        <p className="title-onde-l text-[#5f2fbc] px-0 md:px-12">{t("Fale Conosco")}</p>
+                        <form className="flex flex-col gap-4 w-full px-0 md:px-12">
                             <input type="text" placeholder={t("Nome")} className="input-onde" />
                             <input type="email" placeholder={t("Email de Trabalho")} className="input-onde" />
                             <input type="text" placeholder={t("Telefone")} className="input-onde" />

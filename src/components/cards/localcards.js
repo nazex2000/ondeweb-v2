@@ -28,7 +28,7 @@ export function LocalCardHr({ local }) {
             <p className="event-card-date">
                 {local?.category?.[0]?.name}
             </p>
-            <p className="event-card-location">{trimTitle(local?.location)}</p>
+            <p className="event-card-location" >{trimTitle(local?.location)}</p>
         </div>
     );
 }
