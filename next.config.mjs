@@ -2,7 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     images: {
-        remotePatterns :[
+        remotePatterns: [
             {
                 protocol: 'https',
                 hostname: 'assets.milestoneinternet.com',
@@ -18,6 +18,9 @@ const nextConfig = {
     swcMinify: true,
     productionBrowserSourceMaps: true,
     optimizeFonts: true,
+    experimental: {
+        missingSuspenseWithCSRBailout: false,
+    },
 };
 
 export default nextConfig;

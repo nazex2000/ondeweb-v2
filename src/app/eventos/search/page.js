@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
 import { useSearchParams } from "next/navigation";
 import EmptyImage from '../../../assets/images/empty.png';
@@ -211,191 +211,193 @@ export default function Page() {
     }, [dataRange.start, dataRange.end]);
 
     return (
-        <div className="onde-container">
-            <div className="onde-content flex-col pb-4">
-                <Bread />
-                {loadingParams && <>
-                    <div className="w-full grid grid-cols-1 gap-4 mt-6">
-                        {Array.from({ length: 8 }).map((_, index) => (
-                            <div className="flex flex-col gap-1" key={index}>
-                                <Skeleton variant="rectangular" width="100%" height={100} />
-                            </div>
-                        ))}
-                    </div>
-                </>}
-                {!loadingParams && <>
-                    <div className="w-full flex-col gap-4 my-4">
-                        <p className="title-onde-m">{t('Resultados para')} {searchFilter} {categoryFilter ? (<>[{categoryFilter}]</>) : null} {t('em')} {locationFilter}</p>
-                        <div className="w-full flex flex-col md:flex-row gap-4 mt-3">
-                            <div className="w-1/4 hidden md:flex flex-col gap-4">
-                                <p className="title-onde-sm">{t("Filtros")}</p>
-                                {loadingFilters ? <>
-                                    <div className="w-full grid grid-cols-1 gap-4 mt-3">
-                                        {Array.from({ length: 8 }).map((_, index) => (
-                                            <div className="flex flex-col gap-1" key={index}>
-                                                <Skeleton variant="rectangular" width="100%" height={30} />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </> : <>
-                                    <div className="w-full flex-col gap-4 mt-3">
-                                        <p className="title-onde-s">{t("Data")}</p>
-                                        <div className="w-full grid grid-cols-1 gap-2 mt-2">
-                                            <RadioGroup
-                                                value={dataFilter}
-                                                onChange={(e) => handleDataFilter(e.target.value)}
-                                                size="sm"
-                                            >
-                                                {dataOption.map((option, index) => (
-                                                    <Radio key={index} value={option.value}>
-                                                        <p className="text-onde-xs">{option.name}</p>
-                                                    </Radio>
-                                                ))}
-                                            </RadioGroup>
-                                            <div className="w-full mt-2">
-                                                {dataFilter === 'choose-date' && <>
-                                                    <DateRangePicker
-                                                        label={t("selecione o intervalo de datas")}
-                                                        visibleMonths={2}
-                                                        pageBehavior="single"
-                                                        size="sm"
-                                                        value={dataRange}
-                                                        onChange={setDataRange}
-                                                    />
-                                                </>}
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className="onde-container">
+                <div className="onde-content flex-col pb-4">
+                    <Bread />
+                    {loadingParams && <>
+                        <div className="w-full grid grid-cols-1 gap-4 mt-6">
+                            {Array.from({ length: 8 }).map((_, index) => (
+                                <div className="flex flex-col gap-1" key={index}>
+                                    <Skeleton variant="rectangular" width="100%" height={100} />
+                                </div>
+                            ))}
+                        </div>
+                    </>}
+                    {!loadingParams && <>
+                        <div className="w-full flex-col gap-4 my-4">
+                            <p className="title-onde-m">{t('Resultados para')} {searchFilter} {categoryFilter ? (<>[{categoryFilter}]</>) : null} {t('em')} {locationFilter}</p>
+                            <div className="w-full flex flex-col md:flex-row gap-4 mt-3">
+                                <div className="w-1/4 hidden md:flex flex-col gap-4">
+                                    <p className="title-onde-sm">{t("Filtros")}</p>
+                                    {loadingFilters ? <>
+                                        <div className="w-full grid grid-cols-1 gap-4 mt-3">
+                                            {Array.from({ length: 8 }).map((_, index) => (
+                                                <div className="flex flex-col gap-1" key={index}>
+                                                    <Skeleton variant="rectangular" width="100%" height={30} />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </> : <>
+                                        <div className="w-full flex-col gap-4 mt-3">
+                                            <p className="title-onde-s">{t("Data")}</p>
+                                            <div className="w-full grid grid-cols-1 gap-2 mt-2">
+                                                <RadioGroup
+                                                    value={dataFilter}
+                                                    onChange={(e) => handleDataFilter(e.target.value)}
+                                                    size="sm"
+                                                >
+                                                    {dataOption.map((option, index) => (
+                                                        <Radio key={index} value={option.value}>
+                                                            <p className="text-onde-xs">{option.name}</p>
+                                                        </Radio>
+                                                    ))}
+                                                </RadioGroup>
+                                                <div className="w-full mt-2">
+                                                    {dataFilter === 'choose-date' && <>
+                                                        <DateRangePicker
+                                                            label={t("selecione o intervalo de datas")}
+                                                            visibleMonths={2}
+                                                            pageBehavior="single"
+                                                            size="sm"
+                                                            value={dataRange}
+                                                            onChange={setDataRange}
+                                                        />
+                                                    </>}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="w-full flex-col gap-4 mt-3">
-                                        <p className="title-onde-s">{t("Categorias")}</p>
-                                        <div className="w-full grid grid-cols-1 gap-2 mt-2">
-                                            {exploreCategories
-                                                .slice(0, collapse ? exploreCategories.length : 5)
-                                                .map((category, index) => (
-                                                    <div
-                                                        className={`item-category ${category.name === searchFilter ? 'ic-active' : ''}`}
+                                        <div className="w-full flex-col gap-4 mt-3">
+                                            <p className="title-onde-s">{t("Categorias")}</p>
+                                            <div className="w-full grid grid-cols-1 gap-2 mt-2">
+                                                {exploreCategories
+                                                    .slice(0, collapse ? exploreCategories.length : 5)
+                                                    .map((category, index) => (
+                                                        <div
+                                                            className={`item-category ${category.name === searchFilter ? 'ic-active' : ''}`}
+                                                            key={index}
+                                                            onClick={() => {
+                                                                goSearch(category.name);
+                                                            }}
+                                                        >
+                                                            <MdSelectAll size={20} />
+                                                            <p className="text-onde-xs">{i18n.language === 'pt' ? category.name : category.name_en}</p>
+                                                        </div>
+                                                    ))}
+                                                <div className="collapse-button mt-2" onClick={() => setCollapse(!collapse)}>
+                                                    <p className="text-onde-xs">{collapse ? <>{t("Ver menos")}</> : <>{t("Ver mais")}</>}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="w-full flex-col gap-4 mt-4">
+                                            <p className="title-onde-s">{t("Ordenar por")}</p>
+                                            <div className="w-full grid grid-cols-1 gap-2 mt-2">
+                                                <RadioGroup
+                                                    value={orderFilter}
+                                                    onChange={(e) => setOrderFilter(e.target.value)}
+                                                    size="sm"
+                                                >
+                                                    {orderOptions.map((option, index) => (
+                                                        <Radio key={index} value={option.value}>
+                                                            <p className="text-onde-xs">{option.name}</p>
+                                                        </Radio>
+                                                    ))}
+                                                </RadioGroup>
+                                            </div>
+                                        </div>
+                                    </>}
+                                </div>
+                                <div className="w-full flex md:hidden gap-2">
+                                    <div className="explore-filter px-4 py-2 bg-gray-100 rounded-full  flex items-center justify-between">
+                                        <MdArrowDropDown size={20} color='#7034D4' />
+                                        <p className="text-onde-xs">Categorias</p>
+
+                                        <div className="category-dropdown">
+                                            {
+                                                exploreCategories.map((cat, index) => (
+                                                    <p
+                                                        className="text-onde-xs"
                                                         key={index}
                                                         onClick={() => {
-                                                            goSearch(category.name);
+                                                            goSearch(cat.name);
                                                         }}
                                                     >
-                                                        <MdSelectAll size={20} />
-                                                        <p className="text-onde-xs">{i18n.language === 'pt' ? category.name : category.name_en}</p>
-                                                    </div>
-                                                ))}
-                                            <div className="collapse-button mt-2" onClick={() => setCollapse(!collapse)}>
-                                                <p className="text-onde-xs">{collapse ? <>{t("Ver menos")}</> : <>{t("Ver mais")}</>}</p>
-                                            </div>
+                                                        {i18n.language === 'pt' ? cat.name : cat.name_en}
+                                                    </p>
+                                                ))
+                                            }
                                         </div>
                                     </div>
-                                    <div className="w-full flex-col gap-4 mt-4">
-                                        <p className="title-onde-s">{t("Ordenar por")}</p>
-                                        <div className="w-full grid grid-cols-1 gap-2 mt-2">
-                                            <RadioGroup
-                                                value={orderFilter}
-                                                onChange={(e) => setOrderFilter(e.target.value)}
-                                                size="sm"
-                                            >
-                                                {orderOptions.map((option, index) => (
-                                                    <Radio key={index} value={option.value}>
-                                                        <p className="text-onde-xs">{option.name}</p>
-                                                    </Radio>
-                                                ))}
-                                            </RadioGroup>
-                                        </div>
-                                    </div>
-                                </>}
-                            </div>
-                            <div className="w-full flex md:hidden gap-2">
-                                <div className="explore-filter px-4 py-2 bg-gray-100 rounded-full  flex items-center justify-between">
-                                    <MdArrowDropDown size={20} color='#7034D4' />
-                                    <p className="text-onde-xs">Categorias</p>
-
-                                    <div className="category-dropdown">
-                                        {
-                                            exploreCategories.map((cat, index) => (
-                                                <p
-                                                    className="text-onde-xs"
-                                                    key={index}
-                                                    onClick={() => {
-                                                        goSearch(cat.name);
-                                                    }}
+                                    <div className="explore-filter px-4 py-2 bg-gray-100 rounded-full  flex items-center justify-between">
+                                        <MdArrowDropDown size={20} color='#7034D4' />
+                                        <p className="text-onde-xs">Ordenar por</p>
+                                        <div className="category-dropdown p-3">
+                                            <div className="w-full grid grid-cols-1 gap-2 mt-2">
+                                                <RadioGroup
+                                                    value={orderFilter}
+                                                    onChange={(e) => setOrderFilter(e.target.value)}
+                                                    size="sm"
                                                 >
-                                                    {i18n.language === 'pt' ? cat.name : cat.name_en}
-                                                </p>
-                                            ))
-                                        }
-                                    </div>
-                                </div>
-                                <div className="explore-filter px-4 py-2 bg-gray-100 rounded-full  flex items-center justify-between">
-                                    <MdArrowDropDown size={20} color='#7034D4' />
-                                    <p className="text-onde-xs">Ordenar por</p>
-                                    <div className="category-dropdown p-3">
-                                        <div className="w-full grid grid-cols-1 gap-2 mt-2">
-                                            <RadioGroup
-                                                value={orderFilter}
-                                                onChange={(e) => setOrderFilter(e.target.value)}
-                                                size="sm"
-                                            >
-                                                {orderOptions.map((option, index) => (
-                                                    <Radio key={index} value={option.value}>
-                                                        <p className="text-onde-xs">{option.name}</p>
-                                                    </Radio>
-                                                ))}
-                                            </RadioGroup>
+                                                    {orderOptions.map((option, index) => (
+                                                        <Radio key={index} value={option.value}>
+                                                            <p className="text-onde-xs">{option.name}</p>
+                                                        </Radio>
+                                                    ))}
+                                                </RadioGroup>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
-                            <DateRangePicker
-                                label={t("selecione o intervalo de datas")}
-                                visibleMonths={2}
-                                pageBehavior="single"
-                                size="sm"
-                                value={dataRange}
-                                onChange={setDataRange}
-                            />
-                            <div className="w-full md:w-3/4 flex-col gap-4">
-                                {loadingResults && <>
-                                    <div className="w-full grid grid-cols-3 gap-4 mt-6">
-                                        {Array.from({ length: 8 }).map((_, index) => (
-                                            <div className="flex flex-col gap-1" key={index}>
-                                                <Skeleton variant="rectangular" width="100%" height={200} />
-                                                <Skeleton />
-                                                <Skeleton width="60%" />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </>}
-                                {!loadingResults &&
-                                    <>
-                                        {filteredResults.length > 0 ?
-                                            <>
-                                                <div className="hidden md:grid mt-2 grid-cols-1 gap-4 mb-5">
-                                                    {
-                                                        results.map((ev, index) => (
-                                                            <EventCardVr event={ev} key={index} />
-                                                        ))
-                                                    }
+                                </div>
+                                <DateRangePicker
+                                    label={t("selecione o intervalo de datas")}
+                                    visibleMonths={2}
+                                    pageBehavior="single"
+                                    size="sm"
+                                    value={dataRange}
+                                    onChange={setDataRange}
+                                />
+                                <div className="w-full md:w-3/4 flex-col gap-4">
+                                    {loadingResults && <>
+                                        <div className="w-full grid grid-cols-3 gap-4 mt-6">
+                                            {Array.from({ length: 8 }).map((_, index) => (
+                                                <div className="flex flex-col gap-1" key={index}>
+                                                    <Skeleton variant="rectangular" width="100%" height={200} />
+                                                    <Skeleton />
+                                                    <Skeleton width="60%" />
                                                 </div>
-                                                <div className="flex md:hidden mt-2 grid grid-cols-2 gap-4 mb-5">
-                                                    {
-                                                        results.map((ev, index) => (
-                                                            <EventCardHr event={ev} key={index} />
-                                                        ))
-                                                    }
-                                                </div>
-                                            </> :
-                                            <Empty />
-                                        }
-                                    </>
-                                }
+                                            ))}
+                                        </div>
+                                    </>}
+                                    {!loadingResults &&
+                                        <>
+                                            {filteredResults.length > 0 ?
+                                                <>
+                                                    <div className="hidden md:grid mt-2 grid-cols-1 gap-4 mb-5">
+                                                        {
+                                                            results.map((ev, index) => (
+                                                                <EventCardVr event={ev} key={index} />
+                                                            ))
+                                                        }
+                                                    </div>
+                                                    <div className="flex md:hidden mt-2 grid grid-cols-2 gap-4 mb-5">
+                                                        {
+                                                            results.map((ev, index) => (
+                                                                <EventCardHr event={ev} key={index} />
+                                                            ))
+                                                        }
+                                                    </div>
+                                                </> :
+                                                <Empty />
+                                            }
+                                        </>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </>}
-            </div>
-        </div >
+                    </>}
+                </div>
+            </div >
+        </Suspense>
     );
 }

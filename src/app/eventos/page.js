@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 //css
@@ -116,102 +116,104 @@ export default function Page() {
 
     return (
         <>
-            <div className="onde-container">
-                <div className="onde-content flex-col pb-4">
-                    <Bread />
-                    <div className="card-explore my-3">
-                        <Image
-                            src={Festival}
-                            alt="Maputo"
-                            className="card-explore-image"
-                            fill
-                        />
-                        <div className="card-explore-content">
-                            <div className="flex flex-col items-start justify-start w-full md:w-1/2">
-                                <p className="title-onde-sm md:title-onde-l">{t("Os Melhores eventos em")}</p>
-                                <p className="title-onde-home">{selectedLocation}</p>
-                                <p className="text-onde-s">{t("Você está em")} {selectedLocation} {t("e não sabe o que fazer? Aqui você encontra os melhores eventos para participar")}</p>
-                                <div
-                                    className="explore-button mt-5"
-                                >
-                                    <MdLocationPin size={20} color='white' />
-                                    <p className="text-onde-s">{selectedLocation}</p>
-                                    <MdArrowDropDown size={20} color='white' />
-                                    <div className="onde-dropdown">
+            <Suspense fallback={<div>Loading...</div>}>
+                <div className="onde-container">
+                    <div className="onde-content flex-col pb-4">
+                        <Bread />
+                        <div className="card-explore my-3">
+                            <Image
+                                src={Festival}
+                                alt="Maputo"
+                                className="card-explore-image"
+                                fill
+                            />
+                            <div className="card-explore-content">
+                                <div className="flex flex-col items-start justify-start w-full md:w-1/2">
+                                    <p className="title-onde-sm md:title-onde-l">{t("Os Melhores eventos em")}</p>
+                                    <p className="title-onde-home">{selectedLocation}</p>
+                                    <p className="text-onde-s">{t("Você está em")} {selectedLocation} {t("e não sabe o que fazer? Aqui você encontra os melhores eventos para participar")}</p>
+                                    <div
+                                        className="explore-button mt-5"
+                                    >
+                                        <MdLocationPin size={20} color='white' />
+                                        <p className="text-onde-s">{selectedLocation}</p>
+                                        <MdArrowDropDown size={20} color='white' />
+                                        <div className="onde-dropdown">
+                                            {
+                                                provinces.map((province, index) => (
+                                                    <p
+                                                        className="text-onde-xs"
+                                                        key={index}
+                                                        onClick={() => {
+                                                            handleLocal(province);
+                                                        }}
+                                                    >
+                                                        {province}
+                                                    </p>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        {loadingEvents ? <>
+                            <Skeleton variant="text" width="100%" height={70} />
+                            <div className="w-full grid grid-cols-4 gap-4 mt-6">
+                                {Array.from({ length: 8 }).map((_, index) => (
+                                    <div className="flex flex-col gap-1" key={index}>
+                                        <Skeleton variant="rectangular" width="100%" height={200} />
+                                        <Skeleton />
+                                        <Skeleton width="60%" />
+                                    </div>
+                                ))}
+                            </div>
+                        </> :
+                            <>
+                                <div className="menu-explore my-2">
+                                    <div className="menu-explore-content">
+                                        <div
+                                            className={`menu-explore-item ${selectedCategory === 'Todos' ? 'mei-active' : ''}`}
+                                            key={0}
+                                            onClick={() => setSelectedCategory('Todos')}
+                                        >
+                                            <MdSelectAll size={20} />
+                                            <p className="text-onde-xs">{t("Todos")}</p>
+                                        </div>
                                         {
-                                            provinces.map((province, index) => (
-                                                <p
-                                                    className="text-onde-xs"
-                                                    key={index}
-                                                    onClick={() => {
-                                                        handleLocal(province);
-                                                    }}
+                                            eventCategories.map((category, index) => (
+                                                <div
+                                                    className={`menu-explore-item ${selectedCategory.trim() === category.name.trim() ? 'mei-active' : ''}`}
+                                                    key={index + 1}
+                                                    onClick={() => setSelectedCategory(category.name)}
                                                 >
-                                                    {province}
-                                                </p>
+                                                    <MdArrowOutward size={20} />
+                                                    <p className="text-onde-xs">{i18n.language === 'pt' ? category.name : category.name_en}</p>
+                                                </div>
                                             ))
                                         }
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    {loadingEvents ? <>
-                        <Skeleton variant="text" width="100%" height={70} />
-                        <div className="w-full grid grid-cols-4 gap-4 mt-6">
-                            {Array.from({ length: 8 }).map((_, index) => (
-                                <div className="flex flex-col gap-1" key={index}>
-                                    <Skeleton variant="rectangular" width="100%" height={200} />
-                                    <Skeleton />
-                                    <Skeleton width="60%" />
-                                </div>
-                            ))}
-                        </div>
-                    </> :
-                        <>
-                            <div className="menu-explore my-2">
-                                <div className="menu-explore-content">
-                                    <div
-                                        className={`menu-explore-item ${selectedCategory === 'Todos' ? 'mei-active' : ''}`}
-                                        key={0}
-                                        onClick={() => setSelectedCategory('Todos')}
-                                    >
-                                        <MdSelectAll size={20} />
-                                        <p className="text-onde-xs">{t("Todos")}</p>
-                                    </div>
-                                    {
-                                        eventCategories.map((category, index) => (
-                                            <div
-                                                className={`menu-explore-item ${selectedCategory.trim() === category.name.trim() ? 'mei-active' : ''}`}
-                                                key={index + 1}
-                                                onClick={() => setSelectedCategory(category.name)}
-                                            >
-                                                <MdArrowOutward size={20} />
-                                                <p className="text-onde-xs">{i18n.language === 'pt' ? category.name : category.name_en}</p>
-                                            </div>
-                                        ))
+                                <div className="w-full flex-col gap-4 my-6">
+                                    <p className="title-onde-m">{t("Eventos em")} {selectedLocation}</p>
+                                    {filteredEvents.length > 0 ?
+                                        <div className="flex mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-5">
+                                            {
+                                                filteredEvents.map((ev, index) => (
+                                                    <EventCardHr event={ev} key={index} />
+                                                ))
+                                            }
+                                        </div>
+                                        :
+                                        <Empty />
                                     }
                                 </div>
-                            </div>
-                            <div className="w-full flex-col gap-4 my-6">
-                                <p className="title-onde-m">{t("Eventos em")} {selectedLocation}</p>
-                                {filteredEvents.length > 0 ?
-                                    <div className="flex mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-5">
-                                        {
-                                            filteredEvents.map((ev, index) => (
-                                                <EventCardHr event={ev} key={index} />
-                                            ))
-                                        }
-                                    </div>
-                                    :
-                                    <Empty />
-                                }
-                            </div>
-                        </>
-                    }
+                            </>
+                        }
+                    </div>
                 </div>
-            </div>
+            </Suspense>
         </>
     );
 }

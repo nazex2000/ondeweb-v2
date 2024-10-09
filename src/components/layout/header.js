@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Logo from "../../assets/icons/icon.png";
@@ -20,6 +20,15 @@ const Header = () => {
 
     const { t, i18n } = useTranslation();
     const [language, setLanguage] = useState('pt');
+
+    useEffect(() => {
+        sessionStorage.getItem('language')
+        if (sessionStorage.getItem('language')) {
+            i18n.changeLanguage(sessionStorage.getItem('language'));
+        } else {
+            i18n.changeLanguage('pt');
+        }
+    }, []);
 
     const handleMenu = (path) => {
         window.location.href = path;
@@ -48,6 +57,11 @@ const Header = () => {
         } else {
             window.location.href = `/locais/search?name=${search}&location=${selectedLocal}`;
         }
+    }
+
+    const changeLanguage = (language) => {
+        i18n.changeLanguage(language);
+        sessionStorage.setItem('language', language);
     }
 
     return (
@@ -87,11 +101,11 @@ const Header = () => {
                     </div>
                 </div>
                 <div className="justify-center items-center hidden md:flex ml-3 gap-1">
-                    <div className="rounded-full flex items-center justify-center p-1 cursor-pointer hover:bg-text-gray text-white" onClick={() => i18n.changeLanguage('pt')}>
+                    <div className="rounded-full flex items-center justify-center p-1 cursor-pointer hover:bg-text-gray text-white" onClick={() => changeLanguage('pt')}>
                         <p className="text-onde-s">PT</p>
                     </div>
                     <hr className="h-4 w-0.5 bg-gray-300" />
-                    <div className="rounded-full flex items-center justify-center p-1 cursor-pointer hover:bg-text-gray text-white" onClick={() => i18n.changeLanguage('en')}>
+                    <div className="rounded-full flex items-center justify-center p-1 cursor-pointer hover:bg-text-gray text-white" onClick={() => changeLanguage('en')}>
                         <p className="text-onde-s">EN</p>
                     </div>
                 </div>
@@ -102,24 +116,33 @@ const Header = () => {
                     <div className='menu-bar-mobile  block md:hidden'>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#7034D4' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/')}>Home</p>
+                            <p className="text-onde-s" onClick={() => handleMenu('/')}>Home</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#7034D4' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/eventos')}>{t("Eventos")}</p>
+                            <p className="text-onde-s" onClick={() => handleMenu('/eventos')}>{t("Eventos")}</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#7034D4' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/locais')}>{t("Locais")}</p>
+                            <p className="text-onde-s" onClick={() => handleMenu('/locais')}>{t("Locais")}</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#7034D4' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/sobre')}>{t("Sobre nós")}</p>
+                            <p className="text-onde-s" onClick={() => handleMenu('/sobre')}>{t("Sobre nós")}</p>
                         </p>
                         <p className='text-menu'>
                             <FaArrowRight size={17} color='#7034D4' />
-                            <p className="nilia-text-m" onClick={() => handleMenu('/contactos')}><p>{t("Contactos")}</p></p>
+                            <p className="text-onde-s" onClick={() => handleMenu('/contactos')}><p>{t("Contactos")}</p></p>
                         </p>
+                        <div className="flex justify-center items-center gap-1">
+                            <div className="rounded-full flex items-center justify-center p-1 cursor-pointer hover:bg-text-gray" onClick={() => changeLanguage('pt')}>
+                                <p className="text-onde-s">PT</p>
+                            </div>
+                            <hr className="h-4 w-0.5 bg-gray-300" />
+                            <div className="rounded-full flex items-center justify-center p-1 cursor-pointer hover:bg-text-gray" onClick={() => changeLanguage('en')}>
+                                <p className="text-onde-s">EN</p>
+                            </div>
+                        </div>
                     </div>
                 }
             </div>

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { usePathname, useParams } from "next/navigation";
 import Image from "next/image";
 import EmptyImage from '../../../assets/images/empty.png';
@@ -93,97 +93,99 @@ export default function Page() {
     });
 
     return (
-        <div className="onde-container">
-            <div className="onde-content flex-col pb-4">
-                <Bread last={itemData ? itemData.name : state} />
-                {loading && <>
-                    <div className="w-full grid grid-cols-1 gap-4 mt-6 mid-explore">
-                        <div className="flex flex-col gap-1">
-                            <Skeleton variant="rectangular" width="100%" height={300} />
-                            <Skeleton variant="text" width="60%" height={40} />
-                            <Skeleton variant="text" width="40%" height={40} />
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className="onde-container">
+                <div className="onde-content flex-col pb-4">
+                    <Bread last={itemData ? itemData.name : state} />
+                    {loading && <>
+                        <div className="w-full grid grid-cols-1 gap-4 mt-6 mid-explore">
+                            <div className="flex flex-col gap-1">
+                                <Skeleton variant="rectangular" width="100%" height={300} />
+                                <Skeleton variant="text" width="60%" height={40} />
+                                <Skeleton variant="text" width="40%" height={40} />
+                            </div>
                         </div>
-                    </div>
-                </>}
-                {!loading && !itemData &&
-                    <div className="w-full flex justify-center items-center h-96">
-                        <Empty />
-                    </div>
-                }
-                {!loading && itemData &&
-                    <>
-                        <div className="explore-bg-content my-4">
-                            <Image
-                                src={ExploreBg}
-                                alt="LocalImage"
-                                fill
-                                className="explore-bg"
-                                priority
-                            />
-                            <div className="w-full me-abs">
-                                <div className="flex flex-col mid-explore gap-1">
-                                    <Image
-                                        src={itemData.coverImage}
-                                        alt="LocalImage"
-                                        width={500}
-                                        height={300}
-                                        className="explore-cover-image"
-                                        placeholder="blur"
-                                        priority
-                                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
-                                    />
+                    </>}
+                    {!loading && !itemData &&
+                        <div className="w-full flex justify-center items-center h-96">
+                            <Empty />
+                        </div>
+                    }
+                    {!loading && itemData &&
+                        <>
+                            <div className="explore-bg-content my-4">
+                                <Image
+                                    src={ExploreBg}
+                                    alt="LocalImage"
+                                    fill
+                                    className="explore-bg"
+                                    priority
+                                />
+                                <div className="w-full me-abs">
+                                    <div className="flex flex-col mid-explore gap-1">
+                                        <Image
+                                            src={itemData.coverImage}
+                                            alt="LocalImage"
+                                            width={500}
+                                            height={300}
+                                            className="explore-cover-image"
+                                            placeholder="blur"
+                                            priority
+                                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="w-full flex-col gap-4 mb-4 mid-explore">
-                            <p className="title-onde-l">{itemData.name}</p>
-                            <div className="flex flex-wrap gap-2 mt-4">
-                                {itemData.category.map((tag, index) => (
-                                    <div className="tag-category" key={index} onClick={() => window.location.href = `/locais?category=${tag.name}`} >
-                                        <p className="text-onde-xs">{i18n.language === 'pt' ? tag.name : tag.name_en}</p>
-                                    </div>
-                                ))}
-                            </div>
+                            <div className="w-full flex-col gap-4 mb-4 mid-explore">
+                                <p className="title-onde-l">{itemData.name}</p>
+                                <div className="flex flex-wrap gap-2 mt-4">
+                                    {itemData.category.map((tag, index) => (
+                                        <div className="tag-category" key={index} onClick={() => window.location.href = `/locais?category=${tag.name}`} >
+                                            <p className="text-onde-xs">{i18n.language === 'pt' ? tag.name : tag.name_en}</p>
+                                        </div>
+                                    ))}
+                                </div>
 
-                            <p className="title-onde-sm mt-4">{t("Descrição")}</p>
-                            <p className="text-onde-s mt-2">{i18n.language === 'pt' ? itemData.description : itemData.description_en}</p>
+                                <p className="title-onde-sm mt-4">{t("Descrição")}</p>
+                                <p className="text-onde-s mt-2">{i18n.language === 'pt' ? itemData.description : itemData.description_en}</p>
 
-                            <p className="title-onde-sm mt-4">{t("Localização")}</p>
-                            <p className="text-onde-s flex items-center gap-3 mt-2">
-                                <MdLocationPin size={20} color='#7034D4' />
-                                {itemData.location}
-                            </p>
-                            {isLoaded &&
-                                <GoogleMap
-                                    mapContainerStyle={mapStyles}
-                                    zoom={13}
-                                    center={location}
-                                >
-                                    <Marker
-                                        position={{ lat: location.lat, lng: location.lng }}
-                                    />
-                                </GoogleMap>
-                            }
-                            
-                            <p className="title-onde-sm mt-4">{t("Contacto")}</p>
-                            <p className="text-onde-s flex items-center gap-3 mt-2">
-                                <MdContactPhone size={20} color='#7034D4' />
-                                {itemData.phone || 'Não disponível'}
-                            </p>
-                            
-                            <p className="title-onde-sm mt-4">Tags</p>
-                            <div className="flex flex-wrap gap-2 mt-2">
-                                {itemData.hashtags?.split(' ').map((tag, index) => (
-                                    <div className="tag" key={index}>
-                                        <p className="text-onde-xs">{tag}</p>
-                                    </div>
-                                ))}
+                                <p className="title-onde-sm mt-4">{t("Localização")}</p>
+                                <p className="text-onde-s flex items-center gap-3 mt-2">
+                                    <MdLocationPin size={20} color='#7034D4' />
+                                    {itemData.location}
+                                </p>
+                                {isLoaded &&
+                                    <GoogleMap
+                                        mapContainerStyle={mapStyles}
+                                        zoom={13}
+                                        center={location}
+                                    >
+                                        <Marker
+                                            position={{ lat: location.lat, lng: location.lng }}
+                                        />
+                                    </GoogleMap>
+                                }
+
+                                <p className="title-onde-sm mt-4">{t("Contacto")}</p>
+                                <p className="text-onde-s flex items-center gap-3 mt-2">
+                                    <MdContactPhone size={20} color='#7034D4' />
+                                    {itemData.phone || 'Não disponível'}
+                                </p>
+
+                                <p className="title-onde-sm mt-4">Tags</p>
+                                <div className="flex flex-wrap gap-2 mt-2">
+                                    {itemData.hashtags?.split(' ').map((tag, index) => (
+                                        <div className="tag" key={index}>
+                                            <p className="text-onde-xs">{tag}</p>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    </>
-                }
+                        </>
+                    }
+                </div>
+
             </div>
-
-        </div>
+        </Suspense>
     );
 }
