@@ -60,9 +60,9 @@ export default function Page() {
     const { reference } = useParams();
     const [loading, setLoading] = useState(true);
     const [itemData, setItemData] = useState(null);
+    const { t, i18n } = useTranslation();
     const [state, setState] = useState(t('Buscando dados...'));
     const [location, setLocation] = useState({ lat: -25.953724, lng: 32.585789 })
-    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         getData(reference);
