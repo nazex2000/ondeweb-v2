@@ -54,13 +54,14 @@ export const fetchLocalCategories = async () => {
         if (snapshot.empty) {
             return
         }
-        const categories = snapshot.docs.map(doc => {
+        let categories = snapshot.docs.map(doc => {
             return {
                 ...doc.data(),
                 id: doc.id,
                 selected: false
             };
         });
+        categories= categories.sort((a, b) => a.name.localeCompare(b.name))
         return categories;
     } catch (error) {
         return []

@@ -138,6 +138,7 @@ export const fetchEventCategories = async () => {
                 id: doc.id
             };
         });
+        categories= categories.sort((a, b) => a.name.localeCompare(b.name));
         return categories;
     } catch (error) {
         return []
