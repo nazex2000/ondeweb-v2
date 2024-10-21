@@ -11,7 +11,7 @@ import '../../../components/css/explore.css';
 import { fetchLocalById } from "@/components/getters/local";
 import { MdCalendarMonth, MdCalendarToday, MdContactPhone, MdLocationPin } from "react-icons/md";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import { getEventById } from "@/components/getters/events";
+import { getEventById, updateViews } from "@/components/getters/events";
 import { useTranslation } from "react-i18next";
 import '../../../utilis/i18n';
 import Head from "next/head";

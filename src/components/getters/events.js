@@ -7,6 +7,14 @@ export const getEventById = async (id) => {
             .collection('evento')
             .doc(id)
             .get()
+
+        await firebase
+            .firestore()
+            .collection('evento')
+            .doc(id)
+            .update({
+                views: firebase.firestore.FieldValue.increment(1),
+            });
         if (!doc.exists) {
             return null
         }
@@ -19,6 +27,8 @@ export const getEventById = async (id) => {
         return null
     }
 }
+
+
 
 
 export const getEventCategories = async () => {
@@ -109,6 +119,7 @@ export const fetchEvents = async () => {
             };
         });
         events = shuffleArray(events);
+        events = events.filter((item) => !item.deleted);
         sessionStorage.setItem('events', JSON.stringify(events))
         return events;
     } catch (error) {

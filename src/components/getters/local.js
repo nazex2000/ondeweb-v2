@@ -1,7 +1,7 @@
 import { firebase } from '../../base'
 
 export const getLocalCategories = async () => {
-    if(sessionStorage.getItem('localCategories')) {
+    if (sessionStorage.getItem('localCategories')) {
         return JSON.parse(sessionStorage.getItem('localCategories'))
     } else {
         const categories = await fetchLocalCategories()
@@ -11,7 +11,7 @@ export const getLocalCategories = async () => {
 }
 
 export const getBestLocals = async () => {
-    if(sessionStorage.getItem('locals')) {
+    if (sessionStorage.getItem('locals')) {
         return JSON.parse(sessionStorage.getItem('locals'))
     } else {
         const locals = await fetchLocals()
@@ -26,6 +26,12 @@ export const fetchLocalById = async (id) => {
             .collection('local')
             .doc(id)
             .get()
+        await firebase.firestore()
+            .collection('local')
+            .doc(id)
+            .update({
+                views: firebase.firestore.FieldValue.increment(1)
+            })
         if (!doc.exists) {
             return
         }
@@ -37,6 +43,8 @@ export const fetchLocalById = async (id) => {
         return
     }
 }
+
+
 
 export const fetchLocalCategories = async () => {
     try {
@@ -60,21 +68,21 @@ export const fetchLocalCategories = async () => {
 }
 
 export const fetchLocals = async () => {
-    try{
+    try {
         const snapshot = await firebase.firestore()
-                .collection('local')
-                .orderBy('views', 'desc')
-                .get()
-            let locals = snapshot.docs.map(doc => {
-                return {
-                    ...doc.data(),
-                    id: doc.id
-                };
-            }
-            ).sort((a, b) => b.views - a.views);
-            locals=locals.filter((item) => !item.deleted);
-            return locals;
-        } catch (error) {
-            return []
+            .collection('local')
+            .orderBy('views', 'desc')
+            .get()
+        let locals = snapshot.docs.map(doc => {
+            return {
+                ...doc.data(),
+                id: doc.id
+            };
         }
+        ).sort((a, b) => b.views - a.views);
+        locals = locals.filter((item) => !item.deleted);
+        return locals;
+    } catch (error) {
+        return []
     }
+}
