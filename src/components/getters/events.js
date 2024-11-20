@@ -28,7 +28,25 @@ export const getEventById = async (id) => {
     }
 }
 
-
+export const getSponsorsByCategoriesIds = async (categoriesIds) => {
+    try {
+        const snapshot = await firebase
+            .firestore()
+            .collection('sponsor')
+            .where('categories', 'array-contains-any', categoriesIds)
+            .get()
+        let sponsors = snapshot.docs.map(doc => {
+            return {
+                ...doc.data(),
+                id: doc.id
+            };
+        });
+        sponsors = shuffleArray(sponsors);
+        return sponsors;
+    } catch (error) {
+        return []
+    }
+}
 
 
 export const getEventCategories = async () => {

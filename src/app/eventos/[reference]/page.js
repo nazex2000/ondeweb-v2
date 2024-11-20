@@ -11,7 +11,7 @@ import '../../../components/css/explore.css';
 import { fetchLocalById } from "@/components/getters/local";
 import { MdCalendarMonth, MdCalendarToday, MdContactPhone, MdLocationPin } from "react-icons/md";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import { getEventById, updateViews } from "@/components/getters/events";
+import { getEventById, getSponsorsByCategoriesIds, updateViews } from "@/components/getters/events";
 import { useTranslation } from "react-i18next";
 import '../../../utilis/i18n';
 import Head from "next/head";
@@ -63,6 +63,7 @@ export default function Page() {
     const { t, i18n } = useTranslation();
     const [state, setState] = useState(t('Buscando dados...'));
     const [location, setLocation] = useState({ lat: -25.953724, lng: 32.585789 })
+    const [sponsors, setSponsors] = useState([]);
 
     useEffect(() => {
         getData(reference);
@@ -75,11 +76,19 @@ export default function Page() {
             setItemData(data);
             setState(data.name);
             setLocation({ lat: data.lat, lng: data.lng });
+            await fetchSponsors(data.category.map(cat => cat.id));
         } else {
             setState(t("Nenhum evento encontrado"));
         }
         setLoading(false);
     }
+
+    const fetchSponsors = async (categories) => {
+        const sponsors = await getSponsorsByCategoriesIds(categories);
+        setSponsors(sponsors);
+        console.log(sponsors);
+    }
+
 
     //Map the rows
     const mapStyles = {
@@ -162,7 +171,27 @@ export default function Page() {
                                         </div>
                                     ))}
                                 </div>
-
+                                {sponsors.length > 0 &&
+                                <>
+                                    <div className="w-full flex flex-wrap gap-6 mt-6">
+                                        {sponsors.map((sponsor, index) => (
+                                            <div className="flex flex-col gap-2 items-center w-[fit-content] cursor-pointer" onClick={() => window.open(sponsor?.link, '_blank')} key={index}>
+                                                <Image
+                                                    src={sponsor?.coverImage}
+                                                    className="h-[100px] rounded-full hover:scale-105 transition-transform duration-300 ease-in-out"
+                                                    width={100}
+                                                    height={100}
+                                                    placeholder="blur"
+                                                    priority
+                                                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
+                                                />
+                                                <p className="text-onde-s">{sponsor?.name}</p>
+                                            </div>
+                                        ))
+                                        }
+                                    </div>
+                                </>
+                            }
                                 <p className="title-onde-sm mt-4">{t("Descrição")}</p>
                                 <p className="text-onde-s mt-2">{i18n.language === 'pt' ? itemData.description : itemData.description_en}</p>
                                 <p className="title-onde-sm mt-4">{t("Data")}</p>
