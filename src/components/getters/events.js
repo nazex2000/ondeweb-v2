@@ -136,8 +136,9 @@ export const fetchEvents = async () => {
                 id: doc.id
             };
         });
+        // Remove events that are deleted
+        events = events.filter((item) => item.deleted === false);
         events = shuffleArray(events);
-        events = events.filter((item) => !item.deleted);
         sessionStorage.setItem('events', JSON.stringify(events))
         return events;
     } catch (error) {
