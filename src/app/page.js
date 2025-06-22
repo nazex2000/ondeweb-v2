@@ -1,4 +1,7 @@
-"use client";
+
+"use client"
+import dynamic from 'next/dynamic';
+
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Banner from "../assets/images/banner-home.webp";
@@ -18,7 +21,7 @@ import NetworkingIcon from '../assets/icons/networking.png';
 import FoodIcon from '../assets/icons/food.png';
 import SportsIcon from '../assets/icons/sports.png';
 import { EventCardHr, Organizer } from "@/components/cards/eventcards";
-
+import AppMap from '../components/AppMap.jsx';
 
 //imagens provincias
 import Maputo from '../assets/images/maputo.jpg';
@@ -43,6 +46,7 @@ import EmptyImage from '../assets/images/empty.png';
 import Skeleton from '@mui/material/Skeleton';
 
 
+const VenueMap = dynamic(() => import('../components/VenueMap'), { ssr: false })
 const Empty = () => {
   return (
     <div className="flex-col flex justify-center items-center w-full">
@@ -56,7 +60,6 @@ const Empty = () => {
     </div>
   );
 }
-
 
 export default function Home() {
   const [selectedMenu, setSelectedMenu] = useState("all");
@@ -186,6 +189,7 @@ export default function Home() {
         </div>
         <hr className="w-full mb-2" />
       </section>
+      <VenueMap />
       <div className="onde-container">
         <div className="onde-content flex-col">
           <div className="menu-bar flex gap-6 items-center">
