@@ -18,7 +18,6 @@ import { MdArrowDropDown, MdOutlineMusicVideo, MdPersonOutline } from "react-ico
 //icons
 import MicIcon from '../assets/icons/mic.png';
 import DiscoIcon from '../assets/icons/disco.png';
-import MaskIcon from '../assets/icons/mask.png';
 import FashionIcon from '../assets/icons/fashion.png';
 import NetworkingIcon from '../assets/icons/networking.png';
 import FoodIcon from '../assets/icons/food.png';
